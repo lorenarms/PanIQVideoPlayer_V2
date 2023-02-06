@@ -1,31 +1,40 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
+using System.Net.Sockets;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using SuperSimpleTcp;
+using DataReceivedEventArgs = SuperSimpleTcp.DataReceivedEventArgs;
 
 namespace Client
 {
     public partial class ClientForm : Form
     {
-        private SimpleTcpClient client;
+        private SimpleTcpClient _client;
+        private string _localComputerName;
+        private Hashtable _table;
         public ClientForm()
         {
+            
             InitializeComponent();
+
         }
 
         private void ClientForm_Load(object sender, EventArgs e)
         {
-            client = new SimpleTcpClient(textServerIp.Text);
-            client.Events.Connected += Events_Connected;
-            client.Events.Disconnected += Events_Disconnected;
-            client.Events.DataReceived += Events_DataReceived;
             btnSend.Enabled = false;
+            _localComputerName = GetLocalComputerName();
+            _table = new Hashtable();
+
+            //ClientForm.ActiveForm.Text = _localComputerName;
         }
         
         // client methods
@@ -48,14 +57,41 @@ namespace Client
 
         private void Events_DataReceived(object sender, DataReceivedEventArgs e)
         {
-            if (textMessage.InvokeRequired)
+            var messageReceived = Encoding.UTF8.GetString(e.Data.ToArray());
+
+            if (messageReceived.Contains("REQUESTNAME+"))
             {
-                this.Invoke((MethodInvoker) delegate
+                string clientIpAddressWithPort = "NAMEREQUEST,";
+                string[] messageSplit = messageReceived.Split('+');
+                foreach (var item in messageSplit)
                 {
-                    listMessages.Text +=
-                        $@"{e.IpPort}: {Encoding.UTF8.GetString(e.Data.ToArray())}{Environment.NewLine}";
-                });
-            }    
+                    if (item.Equals("REQUESTNAME"))
+                    {
+                        continue;
+                    }
+
+                    clientIpAddressWithPort += item;
+
+                }
+                clientIpAddressWithPort += "+";
+                clientIpAddressWithPort += GetLocalComputerName();
+
+                _client.Send(clientIpAddressWithPort);
+            }
+
+            else
+            {
+                if (textMessage.InvokeRequired)
+                {
+                    this.Invoke((MethodInvoker) delegate
+                    {
+                        listMessages.Text +=
+                            $@"{e.IpPort}: {Encoding.UTF8.GetString(e.Data.ToArray())}{Environment.NewLine}";
+                    });
+                }    
+
+            }
+
         }
 
 
@@ -65,11 +101,11 @@ namespace Client
         // buttons
         private void btnSend_Click(object sender, EventArgs e)
         {
-            if (client.IsConnected)
+            if (_client.IsConnected)
             {
                 if (!string.IsNullOrEmpty(textMessage.Text))
                 {
-                    client.Send(textMessage.Text);
+                    _client.Send(textMessage.Text);
                     listMessages.Text += $@"Me: {textMessage.Text}{Environment.NewLine}";
                     textMessage.Text = string.Empty;
                 }
@@ -80,14 +116,45 @@ namespace Client
         {
             try
             {
-                client.Connect();
+                _client = new SimpleTcpClient(textServerIp.Text);
+                _client.Events.Connected += Events_Connected;
+                _client.Events.Disconnected += Events_Disconnected;
+                _client.Events.DataReceived += Events_DataReceived;
+                _client.Connect();
                 btnSend.Enabled = true;
                 btnConnect.Enabled = false;
+
+                
+
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, @"Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
+
+        // miscellaneous methods
+        public string GetLocalComputerName()    // return the name of the local computer
+        {
+            var name = Dns.GetHostName();
+            return Dns.GetHostName();
+        }
+
+        public string GetLocalComputerIp()
+        {
+            var host = Dns.GetHostEntry(Dns.GetHostName());
+            var name = Dns.GetHostName();
+            foreach (var ip in host.AddressList)
+            {
+                if (ip.AddressFamily == AddressFamily.InterNetwork)
+                {
+                    return ip.ToString();
+                }
+            }
+            throw new Exception("No network adapters with an IPv4 address in the system!");
+
+        }
+
     }
 }

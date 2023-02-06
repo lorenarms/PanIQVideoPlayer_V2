@@ -81,7 +81,6 @@
             this.textServerIp.Name = "textServerIp";
             this.textServerIp.Size = new System.Drawing.Size(818, 31);
             this.textServerIp.TabIndex = 9;
-            this.textServerIp.Text = "127.0.0.1:9001";
             // 
             // label2
             // 
