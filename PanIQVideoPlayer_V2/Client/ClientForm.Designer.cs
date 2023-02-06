@@ -103,7 +103,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1047, 747);
+            this.ClientSize = new System.Drawing.Size(1047, 739);
             this.Controls.Add(this.listMessages);
             this.Controls.Add(this.btnSend);
             this.Controls.Add(this.btnConnect);
@@ -111,6 +111,8 @@
             this.Controls.Add(this.textServerIp);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
+            this.MaximumSize = new System.Drawing.Size(1073, 810);
+            this.MinimumSize = new System.Drawing.Size(1073, 810);
             this.Name = "ClientForm";
             this.Text = "Form1";
             this.Load += new System.EventHandler(this.ClientForm_Load);

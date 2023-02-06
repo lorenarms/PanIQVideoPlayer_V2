@@ -20,7 +20,7 @@ namespace Client
     {
         private SimpleTcpClient _client;
         private string _localComputerName;
-        private Hashtable _table;
+        private Command_Runner _runner;
         public ClientForm()
         {
             
@@ -32,8 +32,7 @@ namespace Client
         {
             btnSend.Enabled = false;
             _localComputerName = GetLocalComputerName();
-            _table = new Hashtable();
-
+            _runner = new Command_Runner();
             //ClientForm.ActiveForm.Text = _localComputerName;
         }
         
@@ -77,6 +76,11 @@ namespace Client
                 clientIpAddressWithPort += GetLocalComputerName();
 
                 _client.Send(clientIpAddressWithPort);
+            }
+
+            else if (messageReceived.Contains("INTRO"))
+            {
+                _runner.StartIntroVideo();
             }
 
             else

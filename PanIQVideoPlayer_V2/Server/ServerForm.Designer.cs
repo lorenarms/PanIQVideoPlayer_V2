@@ -132,6 +132,8 @@
             this.Controls.Add(this.textServerIp);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
+            this.MaximumSize = new System.Drawing.Size(1299, 796);
+            this.MinimumSize = new System.Drawing.Size(1299, 796);
             this.Name = "ServerForm";
             this.Text = "Form1";
             this.Load += new System.EventHandler(this.ServerForm_Load);
