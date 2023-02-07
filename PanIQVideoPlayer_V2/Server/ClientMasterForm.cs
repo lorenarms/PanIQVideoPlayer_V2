@@ -1,4 +1,11 @@
-﻿using System;
+﻿
+
+
+// https://www.youtube.com/watch?v=QrdfegS3iDg
+
+
+
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -14,10 +21,10 @@ using SuperSimpleTcp;
 
 namespace Server
 {
-    public partial class ServerForm : Form
+    public partial class ClientMasterForm : Form
     {
 
-        public ServerForm()
+        public ClientMasterForm()
         {
             InitializeComponent();
         }

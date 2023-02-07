@@ -1,6 +1,6 @@
 ﻿namespace Server
 {
-    partial class ServerForm
+    partial class ClientMasterForm
     {
         /// <summary>
         /// Required designer variable.
@@ -118,7 +118,7 @@
             this.label3.TabIndex = 15;
             this.label3.Text = "Client IP:";
             // 
-            // ServerForm
+            // ClientMasterForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -134,8 +134,8 @@
             this.Controls.Add(this.label1);
             this.MaximumSize = new System.Drawing.Size(1299, 796);
             this.MinimumSize = new System.Drawing.Size(1299, 796);
-            this.Name = "ServerForm";
-            this.Text = "Form1";
+            this.Name = "ClientMasterForm";
+            this.Text = "Client Master";
             this.Load += new System.EventHandler(this.ServerForm_Load);
             this.ResumeLayout(false);
             this.PerformLayout();

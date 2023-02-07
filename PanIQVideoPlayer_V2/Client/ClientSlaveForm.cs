@@ -16,12 +16,12 @@ using DataReceivedEventArgs = SuperSimpleTcp.DataReceivedEventArgs;
 
 namespace Client
 {
-    public partial class ClientForm : Form
+    public partial class ClientSlaveForm : Form
     {
         private SimpleTcpClient _client;
         private string _localComputerName;
         private Command_Runner _runner;
-        public ClientForm()
+        public ClientSlaveForm()
         {
             
             InitializeComponent();

@@ -1,6 +1,6 @@
 ﻿namespace Client
 {
-    partial class ClientForm
+    partial class ClientSlaveForm
     {
         /// <summary>
         /// Required designer variable.
@@ -99,7 +99,7 @@
             this.listMessages.Size = new System.Drawing.Size(818, 434);
             this.listMessages.TabIndex = 6;
             // 
-            // ClientForm
+            // ClientSlaveForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -113,8 +113,8 @@
             this.Controls.Add(this.label1);
             this.MaximumSize = new System.Drawing.Size(1073, 810);
             this.MinimumSize = new System.Drawing.Size(1073, 810);
-            this.Name = "ClientForm";
-            this.Text = "Form1";
+            this.Name = "ClientSlaveForm";
+            this.Text = "Client Slave";
             this.Load += new System.EventHandler(this.ClientForm_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
