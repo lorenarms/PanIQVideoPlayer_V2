@@ -14,32 +14,33 @@ using System.Windows.Forms;
 using SuperSimpleTcp;
 using DataReceivedEventArgs = SuperSimpleTcp.DataReceivedEventArgs;
 
-namespace Client
+namespace Client.Original
 {
-    public partial class ClientSlaveForm : Form
+    public partial class Form1 : Form
     {
         private SimpleTcpClient _client;
-        private Command_Runner _runner;
-
         private string _localComputerName;
-
-        public ClientSlaveForm()
+        private Command_Runner _runner;
+        public Form1()
         {
+
             InitializeComponent();
+
         }
 
-        private void ClientForm_Load(object sender, EventArgs e)
+        private void Form1_Load(object sender, EventArgs e)
         {
             btnSend.Enabled = false;
             _localComputerName = GetLocalComputerName();
             _runner = new Command_Runner();
             //ClientForm.ActiveForm.Text = _localComputerName;
         }
+
         
         // client methods
         private void Events_Connected(object sender, ConnectionEventArgs e)
         {
-            this.Invoke((MethodInvoker) delegate
+            this.Invoke((MethodInvoker)delegate
             {
                 listMessages.Text += $@"Server connected.{Environment.NewLine}";
             });
@@ -60,7 +61,7 @@ namespace Client
 
             if (messageReceived.Contains("REQUESTNAME+"))
             {
-                string clientIpAddressWithPort = "REQUESTNAMESLAVE+";
+                string clientIpAddressWithPort = "NAMEREQUEST,";
                 string[] messageSplit = messageReceived.Split('+');
                 foreach (var item in messageSplit)
                 {
@@ -72,14 +73,12 @@ namespace Client
                     clientIpAddressWithPort += item;
 
                 }
-                clientIpAddressWithPort += ",";
+                clientIpAddressWithPort += "+";
                 clientIpAddressWithPort += GetLocalComputerName();
-                clientIpAddressWithPort.Trim();
 
                 _client.Send(clientIpAddressWithPort);
             }
 
-            
             else if (messageReceived.Contains("INTRO"))
             {
                 _runner.StartIntroVideo();
@@ -89,23 +88,19 @@ namespace Client
             {
                 if (textMessage.InvokeRequired)
                 {
-                    this.Invoke((MethodInvoker) delegate
+                    this.Invoke((MethodInvoker)delegate
                     {
                         listMessages.Text +=
                             $@"{e.IpPort}: {Encoding.UTF8.GetString(e.Data.ToArray())}{Environment.NewLine}";
                     });
-                }    
+                }
 
             }
 
         }
 
 
-
-
-
-        // buttons
-        private void btnSend_Click(object sender, EventArgs e)
+        private void btnSend_Click_1(object sender, EventArgs e)
         {
             if (_client.IsConnected)
             {
@@ -118,7 +113,7 @@ namespace Client
             }
         }
 
-        private void btnConnect_Click(object sender, EventArgs e)
+        private void btnConnect_Click_1(object sender, EventArgs e)
         {
             try
             {
@@ -130,7 +125,7 @@ namespace Client
                 btnSend.Enabled = true;
                 btnConnect.Enabled = false;
 
-                
+
 
             }
             catch (Exception ex)
@@ -162,5 +157,6 @@ namespace Client
 
         }
 
+        
     }
 }

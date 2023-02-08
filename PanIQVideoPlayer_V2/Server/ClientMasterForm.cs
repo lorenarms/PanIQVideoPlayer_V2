@@ -1,15 +1,12 @@
 ﻿
-
-
 // https://www.youtube.com/watch?v=QrdfegS3iDg
-
-
 
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics.Eventing.Reader;
 using System.Drawing;
 using System.Linq;
 using System.Net.Sockets;
@@ -19,47 +16,53 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using SuperSimpleTcp;
 
-namespace Server
+namespace ClientMaster
 {
     public partial class ClientMasterForm : Form
     {
+
+        private SimpleTcpClient _client;
+        private Dictionary<string, string> ClientSlaveList;
+        
+        private static string _localComputerName;
 
         public ClientMasterForm()
         {
             InitializeComponent();
         }
 
-        private SimpleTcpServer _server;
-        private Dictionary<string, string> _table;
 
-        private void ServerForm_Load(object sender, EventArgs e)
+        private void ClientMasterForm_Load(object sender, EventArgs e)
         {
             btnSend.Enabled = false;
+            btnCommand.Enabled = false;
             textServerIp.Text = GetLocalIpAddress() + @":9001";
-            _table = new Dictionary<string, string>();
+            _localComputerName = GetLocalComputerName();
+            ClientSlaveList = new Dictionary<string, string>();
         }
 
         
 
 
-        // server events
-        private void Events_ClientConnected(object sender, ConnectionEventArgs e)
+        // master events
+        private void Events_Connected(object sender, ConnectionEventArgs e)
         {
             this.Invoke((MethodInvoker) delegate
             {
                 listMessages.Text += $@"{e.IpPort} connected.{Environment.NewLine}";
-                _server.Send(e.IpPort, "REQUESTNAME+" + e.IpPort);
-                //listClient.Items.Add(e.IpPort);
+                _client.Send("REQUESTNAMEMASTER+" + e.IpPort + "," + GetLocalComputerName());
+                
+                
             });
         }
-        private void Events_ClientDisconnected(object sender, ConnectionEventArgs e)
+        private void Events_Disconnected(object sender, ConnectionEventArgs e)
         {
             var ipAddressWithPort = e.IpPort;
             var computerToRemove = string.Empty;
             this.Invoke((MethodInvoker) delegate
             {
                 listMessages.Text += $@"{e.IpPort} disconnected.{Environment.NewLine}";
-                foreach (var item in _table)
+                foreach (var item in ClientSlaveList)
                 {
                     if (item.Key.Equals(ipAddressWithPort))
                     {
@@ -67,38 +70,72 @@ namespace Server
                     }
                 }
                 listClient.Items.Remove(computerToRemove);
-                _table.Remove(ipAddressWithPort);
+                ClientSlaveList.Remove(ipAddressWithPort);
             });
         }
+
+
         private void Events_DataReceived(object sender, DataReceivedEventArgs e)
         {
-            if (Encoding.UTF8.GetString(e.Data.ToArray()).Contains("NAMEREQUEST"))
+            string messageReceived = Encoding.UTF8.GetString(e.Data.ToArray());
+            
+
+            if (messageReceived.Contains("REQUESTNAME+"))
             {
-
-                this.Invoke((MethodInvoker) delegate
+                string clientIpAddressWithPort = "REQUESTNAMEMASTER+";
+                string[] messageSplit = messageReceived.Split('+');
+                foreach (var item in messageSplit)
                 {
-                    string table = Encoding.UTF8.GetString(e.Data.ToArray());
-                    char[] splitter = {','};
-                    string[] entries = table.Split(splitter, StringSplitOptions.RemoveEmptyEntries);
-
-                    foreach (var entry in entries)
+                    if (item.Equals("REQUESTNAME"))
                     {
-                        if (entry.Equals("NAMEREQUEST"))
-                        {
-                            continue;
-                        }
-
-                        char[] singleEntryChars = {'+'};
-                        string[] singleEntry = entry.Split(singleEntryChars, StringSplitOptions.None);
-
-                        _table.Add(singleEntry[0], singleEntry[1]);
-
-                        listClient.Items.Add(singleEntry[1]);
-                        
+                        continue;
                     }
 
-                });
+                    clientIpAddressWithPort += item;
 
+                }
+                clientIpAddressWithPort += ",";
+                clientIpAddressWithPort += GetLocalComputerName();
+                clientIpAddressWithPort.Trim();
+
+                _client.Send(clientIpAddressWithPort);
+            }
+
+            else if (messageReceived.Contains("SLAVE+"))
+            {
+                ClientSlaveList.Clear();
+                char[] splitterMessage = {'+'};
+                string[] messageSplit = messageReceived.Split(splitterMessage, StringSplitOptions.RemoveEmptyEntries);
+                foreach (var VARIABLE in messageSplit)
+                {
+                    if (VARIABLE.Equals("SLAVE"))
+                    {
+                        continue;
+                    }
+
+                    char[] splitterEntry = {','};
+                    string[] messageEntries = VARIABLE.Split(splitterEntry, StringSplitOptions.RemoveEmptyEntries);
+                    ClientSlaveList.Add(messageEntries[0], messageEntries[1]);
+
+                    this.Invoke((MethodInvoker) delegate
+                    {
+                        listClient.Items.Add(messageEntries[1]);
+
+                    });
+
+
+                }
+            }
+
+            else if (messageReceived.Contains("REFRESHLIST"))
+            {
+                ClientSlaveList.Clear();
+                this.Invoke((MethodInvoker) delegate
+                {
+                    listClient.Items.Clear();
+
+                });
+                _client.Send("REQUESTSLAVELIST+" + GetLocalIpAddress());
             }
             else
             {
@@ -116,41 +153,60 @@ namespace Server
 
 
         // buttons
-        private void btnStart_Click(object sender, EventArgs e)
-        {
-            _server = new SimpleTcpServer(textServerIp.Text);
-            _server.Events.ClientDisconnected += Events_ClientDisconnected;
-            _server.Events.ClientConnected += Events_ClientConnected;
-            _server.Events.DataReceived += Events_DataReceived;
-            _server.Start();
-            listMessages.Text += $@"Starting...{Environment.NewLine}";
-            btnStart.Enabled = false;
-            btnSend.Enabled = true;
-        }
-
         private void btnSend_Click(object sender, EventArgs e)
         {
-            string ipConnection = string.Empty;
-
-            if (_server.IsListening)
+            if (_client.IsConnected && listClient.SelectedItem == null)
             {
-                if (!string.IsNullOrEmpty(textMessage.Text) && listClient.SelectedItem != null)
+                if (!string.IsNullOrEmpty(textMessage.Text))
                 {
-                    foreach (var item in _table)
-                    {
-                        if (item.Value == listClient.SelectedItem.ToString())
-                        {
-                            ipConnection = item.Key;
-                        }
-                    }
-
-                    _server.Send(ipConnection, textMessage.Text);
-                    //_server.Send( listClient.SelectedItem.ToString(), textMessage.Text);
-
-                    listMessages.Text += $@"Server: {textMessage.Text}{Environment.NewLine}";
+                    _client.Send(textMessage.Text);
+                    listMessages.Text += $@"Me: {textMessage.Text}{Environment.NewLine}";
                     textMessage.Text = string.Empty;
                 }
             }
+            else if (_client.IsConnected && listClient.SelectedItem != null)
+            {
+                string ipConnection = string.Empty;
+                foreach (var item in ClientSlaveList)
+                {
+                    if (item.Value == listClient.SelectedItem.ToString())
+                    {
+                        ipConnection = item.Key;
+                    }
+                }
+
+                _client.Send("COMMAND+" + ipConnection + "," + textMessage.Text);
+                listMessages.Text += $@"Me: {textMessage.Text}{Environment.NewLine}";
+                textMessage.Text = string.Empty;
+            }
+        }
+
+        private void btnConnect_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                _client = new SimpleTcpClient(textServerIp.Text);
+                _client.Events.Connected += Events_Connected;
+                _client.Events.Disconnected += Events_Disconnected;
+                _client.Events.DataReceived += Events_DataReceived;
+                _client.Connect();
+                btnSend.Enabled = true;
+                btnConnect.Enabled = false;
+                btnCommand.Enabled = true;
+
+
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, @"Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void btnCommand_Click(object sender, EventArgs e)
+        {
+            _client.Send("REQUESTSLAVELIST+" + GetLocalIpAddress());
+
         }
 
 
@@ -169,5 +225,13 @@ namespace Server
             }
             throw new Exception("No network adapters with an IPv4 address in the system!");
         }
+
+        public string GetLocalComputerName()    // return the name of the local computer
+        {
+            var name = Dns.GetHostName();
+            return Dns.GetHostName();
+        }
+
+
     }
 }
