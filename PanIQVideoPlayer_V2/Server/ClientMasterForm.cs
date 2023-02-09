@@ -187,29 +187,26 @@ namespace ClientMaster
 
         private void btnConnect_Click(object sender, EventArgs e)
         {
-            while (true)
+            try
             {
-                try
-                {
-                    _client = new SimpleTcpClient(textServerIp.Text);
-                    _client.Events.Connected += Events_Connected;
-                    _client.Events.Disconnected += Events_Disconnected;
-                    _client.Events.DataReceived += Events_DataReceived;
-                    _client.Connect();
-                    btnSend.Enabled = true;
-                    btnConnect.Enabled = false;
-                    btnCommand.Enabled = true;
+                _client = new SimpleTcpClient(textServerIp.Text);
+                _client.Events.Connected += Events_Connected;
+                _client.Events.Disconnected += Events_Disconnected;
+                _client.Events.DataReceived += Events_DataReceived;
+                _client.Connect();
+                btnSend.Enabled = true;
+                btnConnect.Enabled = false;
+                btnCommand.Enabled = true;
 
 
-
-                }
-                catch (Exception ex)
-                {
-                    //MessageBox.Show(ex.Message, @"Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    listMessages.Text += $@"Could not connect... retrying now.{Environment.NewLine}";
-                }
 
             }
+            catch (Exception ex)
+            {
+                //MessageBox.Show(ex.Message, @"Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                listMessages.Text += $@"Could not connect... retrying now.{Environment.NewLine}";
+            }
+            
             
         }
 
