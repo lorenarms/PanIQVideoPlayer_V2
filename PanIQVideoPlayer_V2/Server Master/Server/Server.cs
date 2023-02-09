@@ -162,6 +162,7 @@ namespace Server
                             foreach (var slave in ClientSlaveList)
                             {
                                 _server.Send(e.IpPort, "SLAVE+" + slave.Key + "," + slave.Value);
+                                
                                 Console.WriteLine("Slave " + slave.Key + "," + slave.Value + " sent to client " + e.IpPort);
                             }
                             

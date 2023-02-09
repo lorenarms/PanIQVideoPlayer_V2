@@ -103,7 +103,7 @@ namespace ClientMaster
 
             else if (messageReceived.Contains("SLAVE+"))
             {
-                ClientSlaveList.Clear();
+                
                 char[] splitterMessage = {'+'};
                 string[] messageSplit = messageReceived.Split(splitterMessage, StringSplitOptions.RemoveEmptyEntries);
                 foreach (var VARIABLE in messageSplit)
