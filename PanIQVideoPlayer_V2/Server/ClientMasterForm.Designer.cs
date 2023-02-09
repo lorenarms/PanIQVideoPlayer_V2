@@ -51,7 +51,7 @@
             // 
             // btnSend
             // 
-            this.btnSend.Location = new System.Drawing.Point(641, 610);
+            this.btnSend.Location = new System.Drawing.Point(650, 610);
             this.btnSend.Name = "btnSend";
             this.btnSend.Size = new System.Drawing.Size(159, 81);
             this.btnSend.TabIndex = 12;
@@ -105,9 +105,9 @@
             // 
             this.listClient.FormattingEnabled = true;
             this.listClient.ItemHeight = 25;
-            this.listClient.Location = new System.Drawing.Point(1007, 96);
+            this.listClient.Location = new System.Drawing.Point(1007, 149);
             this.listClient.Name = "listClient";
-            this.listClient.Size = new System.Drawing.Size(232, 579);
+            this.listClient.Size = new System.Drawing.Size(232, 529);
             this.listClient.TabIndex = 14;
             // 
             // label3
@@ -115,17 +115,17 @@
             this.label3.AutoSize = true;
             this.label3.Location = new System.Drawing.Point(1002, 49);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(98, 25);
+            this.label3.Size = new System.Drawing.Size(73, 25);
             this.label3.TabIndex = 15;
-            this.label3.Text = "Client IP:";
+            this.label3.Text = "Client:";
             // 
             // btnCommand
             // 
-            this.btnCommand.Location = new System.Drawing.Point(460, 610);
+            this.btnCommand.Location = new System.Drawing.Point(1007, 84);
             this.btnCommand.Name = "btnCommand";
-            this.btnCommand.Size = new System.Drawing.Size(159, 81);
+            this.btnCommand.Size = new System.Drawing.Size(232, 47);
             this.btnCommand.TabIndex = 16;
-            this.btnCommand.Text = "Command";
+            this.btnCommand.Text = "Refresh";
             this.btnCommand.UseVisualStyleBackColor = true;
             this.btnCommand.Click += new System.EventHandler(this.btnCommand_Click);
             // 

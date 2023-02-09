@@ -53,7 +53,6 @@ namespace Client
                 btnConnect.Enabled = true;
             });
         }
-
         private void Events_DataReceived(object sender, DataReceivedEventArgs e)
         {
             var messageReceived = Encoding.UTF8.GetString(e.Data.ToArray());
@@ -100,10 +99,6 @@ namespace Client
 
         }
 
-
-
-
-
         // buttons
         private void btnSend_Click(object sender, EventArgs e)
         {
@@ -120,22 +115,27 @@ namespace Client
 
         private void btnConnect_Click(object sender, EventArgs e)
         {
-            try
+            while (true)
             {
-                _client = new SimpleTcpClient(textServerIp.Text);
-                _client.Events.Connected += Events_Connected;
-                _client.Events.Disconnected += Events_Disconnected;
-                _client.Events.DataReceived += Events_DataReceived;
-                _client.Connect();
-                btnSend.Enabled = true;
-                btnConnect.Enabled = false;
+                try
+                {
+                    _client = new SimpleTcpClient(textServerIp.Text);
+                    _client.Events.Connected += Events_Connected;
+                    _client.Events.Disconnected += Events_Disconnected;
+                    _client.Events.DataReceived += Events_DataReceived;
+                    _client.Connect();
+                    btnSend.Enabled = true;
+                    btnConnect.Enabled = false;
 
-                
+                    
 
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, @"Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                catch (Exception ex)
+                {
+                    
+                    MessageBox.Show(ex.Message, @"Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+
             }
         }
 

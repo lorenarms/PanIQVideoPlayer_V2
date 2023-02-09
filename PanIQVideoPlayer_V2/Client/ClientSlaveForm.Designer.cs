@@ -61,7 +61,7 @@
             this.textServerIp.Name = "textServerIp";
             this.textServerIp.Size = new System.Drawing.Size(818, 31);
             this.textServerIp.TabIndex = 2;
-            this.textServerIp.Text = "127.0.0.1:9001";
+            this.textServerIp.Text = "192.168.0.158:9001";
             // 
             // textMessage
             // 

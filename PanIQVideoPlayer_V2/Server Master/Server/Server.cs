@@ -21,13 +21,13 @@ namespace Server
         public string ServerIp { get; set; }
         
 
-
         static void Main(string[] args)
         {
             _server = new SimpleTcpServer(GetLocalIpAddress() + ":9001");
             _server.Events.ClientConnected += Events_ClientConnected;
             _server.Events.ClientDisconnected += Events_ClientDisconnected;
             _server.Events.DataReceived += Events_DataReceived;
+
 
             ClientSlaveList = new Dictionary<string, string>();
             ClientMasterList = new Dictionary<string, string>();
@@ -39,8 +39,10 @@ namespace Server
             Console.ReadKey();
 
         }
+        
 
 
+        // Events
         static void Events_ClientConnected(object sender, ConnectionEventArgs e)
         {
             // When a client connects, request the name of the client (computer name)
@@ -52,15 +54,42 @@ namespace Server
 
         static void Events_ClientDisconnected(object sender, ConnectionEventArgs e)
         {
+            foreach (var VARIABLE in ClientMasterList)
+            {
+                if (VARIABLE.Key.Equals(e.IpPort))
+                {
+                    ClientMasterList.Remove(VARIABLE.Key);
+                    break;
+                }
+
+            }
+
+            foreach (var VARIABLE in ClientSlaveList)
+            {
+                if (VARIABLE.Key.Equals(e.IpPort))
+                {
+                    ClientSlaveList.Remove(VARIABLE.Key);
+                    break;
+                }
+            }
+
+
             Console.WriteLine($"[{e.IpPort}] client disconnected");
-            ClientSlaveList.Remove(e.IpPort);
+
             foreach (var master in ClientMasterList)
             {
-                _server.Send(master.Key, "REFRESHLIST");
-            }
-            
-        }
+                if (ClientMasterList.Count > 0)
+                {
+                    _server.Send(master.Key, "REFRESHLIST");
 
+                }
+                else
+                {
+                    Console.WriteLine("No more Masters connected!");
+                }
+            }
+
+        }
 
         static void Events_DataReceived(object sender, DataReceivedEventArgs e)
         {
@@ -76,59 +105,22 @@ namespace Server
 
                 if (messageReceived.Contains("REQUESTNAMESLAVE"))
                 {
-
-                    // remove "REQUESTNAMESLAVE" from message
-                    char[] splitterMessage = {'+'};
-                    string[] messageSplit = messageReceived.Split(splitterMessage, StringSplitOptions.RemoveEmptyEntries);
-
-                    foreach (var entry in messageSplit)
-                    {
-                        if (entry.Equals("REQUESTNAMESLAVE"))
-                        {
-                            continue;
-                        }
-                        
-                        // split remaining message into 'ip address' and 'name'
-                        char[] spitterEntries = {','};
-                        string[] singleEntry = entry.Split(spitterEntries, StringSplitOptions.None);
-
-                        // index [0] is IP Address, index [1] is Computer Name
-                        // add to dictionary
-                        ClientSlaveList.Add(singleEntry[0], singleEntry[1]);
-
-                        Console.WriteLine("Slave " + singleEntry[1] + " added to client list.");
-                        
-                    }
+                    string[] singleEntry = MessageParser(messageReceived, "REQUESTNAMESLAVE");
+                    ClientSlaveList.Add(singleEntry[0], singleEntry[1]);
+                    Console.WriteLine("Slave " + singleEntry[1] + " added to client list.");
+                    
                 }
 
                 else if (messageReceived.Contains("REQUESTNAMEMASTER"))
                 {
 
-                    // remove "REQUESTNAMEMASTER" from message
-                    char[] splitterMessage = { '+' };
-                    string[] messageSplit = messageReceived.Split(splitterMessage, StringSplitOptions.RemoveEmptyEntries);
+                    string[] singleEntry = MessageParser(messageReceived, "REQUESTNAMEMASTER");
 
-                    foreach (var entry in messageSplit)
-                    {
-                        if (entry.Equals("REQUESTNAMEMASTER"))
-                        {
-                            continue;
-                        }
-
-                        // split remaining message into 'ip address' and 'name'
-                        char[] spitterEntries = { ',' };
-                        string[] singleEntry = entry.Split(spitterEntries, StringSplitOptions.None);
-
-                        // index [0] is IP Address, index [1] is Computer Name
-                        // add to dictionary
-                        ClientMasterList.Add(singleEntry[0], singleEntry[1]);
-
-                        Console.WriteLine("Master " + singleEntry[1] + " added to master list.");
-
-                    }
+                    ClientMasterList.Add(singleEntry[0], singleEntry[1]);
+                    Console.WriteLine("Master " + singleEntry[1] + " added to master list.");
+                    
                 }
-
-
+                
                 else if (messageReceived.Contains("COMMAND"))
                 {
                     char[] splitterMessage = { '+' };
@@ -193,9 +185,33 @@ namespace Server
         }
 
 
+        static string[] MessageParser(string message, string header)
+        {
+            char[] splitterMessage = {'+'};
+            string[] messageSplit = message.Split(splitterMessage, StringSplitOptions.RemoveEmptyEntries);
+            string[] singleEntry = new string[] { };
+
+            foreach (var entry in messageSplit)
+            {
+                if (entry.Equals(header))
+                {
+                    continue;
+                }
+
+                // split remaining message into 'ip address' and 'name'
+                char[] spitterEntries = {','};
+                singleEntry = entry.Split(spitterEntries, StringSplitOptions.None);
+
+                // index [0] is IP Address, index [1] is Computer Name
+                // add to dictionary
+            }
+
+            return singleEntry;
+
+        }
 
 
-
+        // Miscellaneous commandline methods
         static string GetLocalIpAddress()
         {
             var host = Dns.GetHostEntry(Dns.GetHostName());
@@ -209,8 +225,7 @@ namespace Server
             }
             throw new Exception("No network adapters with an IPv4 address in the system!");
         }
-
-
+        
         static string GetLocalHostName()
         {
             var host = Dns.GetHostEntry(Dns.GetHostName());

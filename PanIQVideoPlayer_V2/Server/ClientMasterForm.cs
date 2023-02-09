@@ -50,7 +50,7 @@ namespace ClientMaster
             this.Invoke((MethodInvoker) delegate
             {
                 listMessages.Text += $@"{e.IpPort} connected.{Environment.NewLine}";
-                _client.Send("REQUESTNAMEMASTER+" + e.IpPort + "," + GetLocalComputerName());
+                //_client.Send("REQUESTNAMEMASTER+" + e.IpPort + "," + GetLocalComputerName());
                 
                 
             });
@@ -157,6 +157,8 @@ namespace ClientMaster
         {
             if (_client.IsConnected && listClient.SelectedItem == null)
             {
+                // send message to server
+
                 if (!string.IsNullOrEmpty(textMessage.Text))
                 {
                     _client.Send(textMessage.Text);
@@ -166,6 +168,7 @@ namespace ClientMaster
             }
             else if (_client.IsConnected && listClient.SelectedItem != null)
             {
+                // send message to selected client
                 string ipConnection = string.Empty;
                 foreach (var item in ClientSlaveList)
                 {
@@ -175,6 +178,7 @@ namespace ClientMaster
                     }
                 }
 
+                // append header "COMMAND" to message
                 _client.Send("COMMAND+" + ipConnection + "," + textMessage.Text);
                 listMessages.Text += $@"Me: {textMessage.Text}{Environment.NewLine}";
                 textMessage.Text = string.Empty;
@@ -183,28 +187,41 @@ namespace ClientMaster
 
         private void btnConnect_Click(object sender, EventArgs e)
         {
-            try
+            while (true)
             {
-                _client = new SimpleTcpClient(textServerIp.Text);
-                _client.Events.Connected += Events_Connected;
-                _client.Events.Disconnected += Events_Disconnected;
-                _client.Events.DataReceived += Events_DataReceived;
-                _client.Connect();
-                btnSend.Enabled = true;
-                btnConnect.Enabled = false;
-                btnCommand.Enabled = true;
+                try
+                {
+                    _client = new SimpleTcpClient(textServerIp.Text);
+                    _client.Events.Connected += Events_Connected;
+                    _client.Events.Disconnected += Events_Disconnected;
+                    _client.Events.DataReceived += Events_DataReceived;
+                    _client.Connect();
+                    btnSend.Enabled = true;
+                    btnConnect.Enabled = false;
+                    btnCommand.Enabled = true;
 
 
+
+                }
+                catch (Exception ex)
+                {
+                    //MessageBox.Show(ex.Message, @"Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    listMessages.Text += $@"Could not connect... retrying now.{Environment.NewLine}";
+                }
 
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, @"Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+            
         }
 
         private void btnCommand_Click(object sender, EventArgs e)
         {
+            ClientSlaveList.Clear();
+            this.Invoke((MethodInvoker)delegate
+            {
+                listClient.Items.Clear();
+
+            });
+
             _client.Send("REQUESTSLAVELIST+" + GetLocalIpAddress());
 
         }
