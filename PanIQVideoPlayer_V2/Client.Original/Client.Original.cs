@@ -20,6 +20,8 @@ namespace Client.Original
     {
         private SimpleTcpClient _client;
         private string _localComputerName;
+
+        // for a separate, outiside project
         private Command_Runner _runner;
         public Form1()
         {
@@ -33,7 +35,7 @@ namespace Client.Original
             btnSend.Enabled = false;
             _localComputerName = GetLocalComputerName();
             _runner = new Command_Runner();
-            //ClientForm.ActiveForm.Text = _localComputerName;
+            
         }
 
         
@@ -45,6 +47,8 @@ namespace Client.Original
                 listMessages.Text += $@"Server connected.{Environment.NewLine}";
             });
         }
+
+
         private void Events_Disconnected(object sender, ConnectionEventArgs e)
         {
             this.Invoke((MethodInvoker)delegate
@@ -55,13 +59,20 @@ namespace Client.Original
             });
         }
 
+
+
         private void Events_DataReceived(object sender, DataReceivedEventArgs e)
         {
             var messageReceived = Encoding.UTF8.GetString(e.Data.ToArray());
 
+
+            // server is requesting the computer name
+            // create a message to send that contains that name and proper 'header'
+            // proper format is [HEADER],[ipAddress]+[NAME]
+
             if (messageReceived.Contains("REQUESTNAME+"))
             {
-                string clientIpAddressWithPort = "NAMEREQUEST,";
+                string clientIpAddressWithPort = "NAMEREQUEST+";
                 string[] messageSplit = messageReceived.Split('+');
                 foreach (var item in messageSplit)
                 {
@@ -73,7 +84,7 @@ namespace Client.Original
                     clientIpAddressWithPort += item;
 
                 }
-                clientIpAddressWithPort += "+";
+                clientIpAddressWithPort += ",";
                 clientIpAddressWithPort += GetLocalComputerName();
 
                 _client.Send(clientIpAddressWithPort);

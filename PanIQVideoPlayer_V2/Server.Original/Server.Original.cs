@@ -28,6 +28,8 @@ namespace Server.Original
         }
 
         private SimpleTcpServer _server;
+
+        // dictionary for client ip addresses [keys] and names [value]
         private Dictionary<string, string> _table;
 
        
@@ -36,6 +38,8 @@ namespace Server.Original
         {
             btnSend.Enabled = false;
             textServerIp.Text = GetLocalIpAddress() + @":9001";
+
+            // initialize the dictionary upon load
             _table = new Dictionary<string, string>();
         }
 
@@ -48,8 +52,12 @@ namespace Server.Original
             this.Invoke((MethodInvoker)delegate
             {
                 listMessages.Text += $@"{e.IpPort} connected.{Environment.NewLine}";
+
+                // ask for the name of the computer that just connected
+                // send "REQUESTNAME+" header with the socket of the client computer
+
                 _server.Send(e.IpPort, "REQUESTNAME+" + e.IpPort);
-                //listClient.Items.Add(e.IpPort);
+                
             });
         }
         private void Events_ClientDisconnected(object sender, ConnectionEventArgs e)
@@ -75,6 +83,7 @@ namespace Server.Original
 
             // convert incoming data to string
             // check "header" for keywords
+            // proper format is [HEADER],[ipAddress]+[MESSAGE]
 
             if (Encoding.UTF8.GetString(e.Data.ToArray()).Contains("NAMEREQUEST"))
             {
@@ -82,7 +91,7 @@ namespace Server.Original
                 this.Invoke((MethodInvoker)delegate
                 {
                     string table = Encoding.UTF8.GetString(e.Data.ToArray());
-                    char[] splitter = { ',' };
+                    char[] splitter = { '+' };
                     string[] entries = table.Split(splitter, StringSplitOptions.RemoveEmptyEntries);
 
                     foreach (var entry in entries)
@@ -92,7 +101,7 @@ namespace Server.Original
                             continue;
                         }
 
-                        char[] singleEntryChars = { '+' };
+                        char[] singleEntryChars = { ',' };
                         string[] singleEntry = entry.Split(singleEntryChars, StringSplitOptions.None);
 
                         _table.Add(singleEntry[0], singleEntry[1]);
@@ -140,6 +149,9 @@ namespace Server.Original
             {
                 if (!string.IsNullOrEmpty(textMessage.Text) && listClient.SelectedItem != null)
                 {
+                    // loop through table of connected devices
+                    // look for a name match
+                    // use the corresponding key as the ip address to send message
                     foreach (var item in _table)
                     {
                         if (item.Value == listClient.SelectedItem.ToString())
@@ -149,8 +161,7 @@ namespace Server.Original
                     }
 
                     _server.Send(ipConnection, textMessage.Text);
-                    //_server.Send( listClient.SelectedItem.ToString(), textMessage.Text);
-
+                    
                     listMessages.Text += $@"Server: {textMessage.Text}{Environment.NewLine}";
                     textMessage.Text = string.Empty;
                 }
