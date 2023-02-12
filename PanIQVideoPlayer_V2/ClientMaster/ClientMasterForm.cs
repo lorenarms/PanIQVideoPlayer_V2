@@ -82,28 +82,12 @@ namespace ClientMaster
 
             if (messageReceived.Contains("REQUESTNAME+"))
             {
-                string clientIpAddressWithPort = "REQUESTNAMEMASTER+";
-                string[] messageSplit = messageReceived.Split('+');
-                foreach (var item in messageSplit)
-                {
-                    if (item.Equals("REQUESTNAME"))
-                    {
-                        continue;
-                    }
-
-                    clientIpAddressWithPort += item;
-
-                }
-                clientIpAddressWithPort += ",";
-                clientIpAddressWithPort += GetLocalComputerName();
-                clientIpAddressWithPort.Trim();
-
-                _client.Send(clientIpAddressWithPort);
+                _client.Send("REQUESTNAMEMASTER+" + GetLocalComputerName());
             }
 
             else if (messageReceived.Contains("SLAVE+"))
             {
-                
+                // adding a slave client to the list of clients connected
                 char[] splitterMessage = {'+'};
                 string[] messageSplit = messageReceived.Split(splitterMessage, StringSplitOptions.RemoveEmptyEntries);
                 foreach (var VARIABLE in messageSplit)
@@ -137,6 +121,7 @@ namespace ClientMaster
                 });
                 _client.Send("REQUESTSLAVELIST+" + GetLocalIpAddress());
             }
+
             else
             {
                 this.Invoke((MethodInvoker) delegate

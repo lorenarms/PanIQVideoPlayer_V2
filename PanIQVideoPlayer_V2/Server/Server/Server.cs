@@ -48,16 +48,18 @@ namespace Server
             // When a client connects, request the name of the client (computer name)
 
             Console.WriteLine($"[{e.IpPort}] client connected");
-            _server.Send(e.IpPort, "REQUESTNAME+" + e.IpPort);
+            _server.Send(e.IpPort, "REQUESTNAME+");
             
         }
 
         static void Events_ClientDisconnected(object sender, ConnectionEventArgs e)
         {
+            string computerRemoved = string.Empty;
             foreach (var VARIABLE in ClientMasterList)
             {
                 if (VARIABLE.Key.Equals(e.IpPort))
                 {
+                    computerRemoved = VARIABLE.Value;
                     ClientMasterList.Remove(VARIABLE.Key);
                     break;
                 }
@@ -68,13 +70,14 @@ namespace Server
             {
                 if (VARIABLE.Key.Equals(e.IpPort))
                 {
+                    computerRemoved = VARIABLE.Value;
                     ClientSlaveList.Remove(VARIABLE.Key);
                     break;
                 }
             }
 
 
-            Console.WriteLine($"[{e.IpPort}] client disconnected");
+            Console.WriteLine($"{computerRemoved} at socket [{e.IpPort}] has disconnected");
 
             foreach (var master in ClientMasterList)
             {
@@ -105,19 +108,54 @@ namespace Server
 
                 if (messageReceived.Contains("REQUESTNAMESLAVE"))
                 {
-                    string[] singleEntry = MessageParser(messageReceived, "REQUESTNAMESLAVE");
-                    ClientSlaveList.Add(singleEntry[0], singleEntry[1]);
-                    Console.WriteLine("Slave " + singleEntry[1] + " added to client list.");
+                    var slaveClientComputerName = string.Empty;
+                    char[] splitter = {'+'};
+                    string[] messageSplit = messageReceived.Split(splitter, StringSplitOptions.RemoveEmptyEntries);
+
+                    foreach (var item in messageSplit)
+                    {
+                        if (item.Equals("REQUESTNAMESLAVE"))
+                        {
+                            continue;
+                        }
+
+                        slaveClientComputerName = item;
+
+                        ClientSlaveList.Add(e.IpPort, slaveClientComputerName);
+
+                    }
+                    
+                    Console.WriteLine("Slave " + slaveClientComputerName + " added to client list.");
+
+                    // tell each master to update their slave list
+                    if (ClientMasterList.Count > 0)
+                    {
+                        foreach (var master in ClientMasterList)
+                        {
+                            _server.Send(master.Key, "REFRESHLIST");
+                        }
+                    }
                     
                 }
 
                 else if (messageReceived.Contains("REQUESTNAMEMASTER"))
                 {
+                    var masterClientComputerName = string.Empty;
+                    char[] splitter = { '+' };
+                    string[] messageSplit = messageReceived.Split(splitter, StringSplitOptions.RemoveEmptyEntries);
 
-                    string[] singleEntry = MessageParser(messageReceived, "REQUESTNAMEMASTER");
+                    foreach (var item in messageSplit)
+                    {
+                        if (item.Equals("REQUESTNAMEMASTER"))
+                        {
+                            continue;
+                        }
+                        masterClientComputerName = item;
 
-                    ClientMasterList.Add(singleEntry[0], singleEntry[1]);
-                    Console.WriteLine("Master " + singleEntry[1] + " added to master list.");
+                        ClientMasterList.Add(e.IpPort, masterClientComputerName);
+                    }
+
+                    Console.WriteLine("Slave " + masterClientComputerName + " added to master list.");
                     
                 }
                 
@@ -162,6 +200,7 @@ namespace Server
                             foreach (var slave in ClientSlaveList)
                             {
                                 _server.Send(e.IpPort, "SLAVE+" + slave.Key + "," + slave.Value);
+                                _server.Send(e.IpPort, slave.Value + " has connected!");
                                 
                                 Console.WriteLine("Slave " + slave.Key + "," + slave.Value + " sent to client " + e.IpPort);
                             }

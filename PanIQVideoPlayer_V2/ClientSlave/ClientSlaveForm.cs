@@ -59,25 +59,8 @@ namespace Client
 
             if (messageReceived.Contains("REQUESTNAME+"))
             {
-                string clientIpAddressWithPort = "REQUESTNAMESLAVE+";
-                string[] messageSplit = messageReceived.Split('+');
-                foreach (var item in messageSplit)
-                {
-                    if (item.Equals("REQUESTNAME"))
-                    {
-                        continue;
-                    }
-
-                    clientIpAddressWithPort += item;
-
-                }
-                clientIpAddressWithPort += ",";
-                clientIpAddressWithPort += GetLocalComputerName();
-                clientIpAddressWithPort.Trim();
-
-                _client.Send(clientIpAddressWithPort);
+                _client.Send("REQUESTNAMESLAVE+" + GetLocalComputerName());
             }
-
             
             else if (messageReceived.Contains("INTRO"))
             {
@@ -86,6 +69,7 @@ namespace Client
 
             else
             {
+                // message was sent, display to message list
                 if (textMessage.InvokeRequired)
                 {
                     this.Invoke((MethodInvoker) delegate
