@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using SuperSimpleTcp;
 using DataReceivedEventArgs = SuperSimpleTcp.DataReceivedEventArgs;
+using System.Globalization;
 
 namespace Client.Original
 {
@@ -70,43 +71,25 @@ namespace Client.Original
             // create a message to send that contains that name and proper 'header'
             // proper format is [HEADER],[ipAddress]+[NAME]
 
-            if (messageReceived.Contains("REQUESTNAME+"))
+            if (messageReceived.Contains("REQUESTNAME"))
             {
-                string clientIpAddressWithPort = "NAMEREQUEST+";
-                string[] messageSplit = messageReceived.Split('+');
-                foreach (var item in messageSplit)
-                {
-                    if (item.Equals("REQUESTNAME"))
-                    {
-                        continue;
-                    }
-
-                    clientIpAddressWithPort += item;
-
-                }
-                clientIpAddressWithPort += ",";
-                clientIpAddressWithPort += GetLocalComputerName();
-
-                _client.Send(clientIpAddressWithPort);
+                _client.Send("NAMEREQUEST+" + _localComputerName);
             }
-
             else if (messageReceived.Contains("INTRO"))
             {
                 _runner.StartIntroVideo();
             }
-
             else
             {
-                if (textMessage.InvokeRequired)
+                this.Invoke((MethodInvoker)delegate
                 {
-                    this.Invoke((MethodInvoker)delegate
-                    {
-                        listMessages.Text +=
-                            $@"{e.IpPort}: {Encoding.UTF8.GetString(e.Data.ToArray())}{Environment.NewLine}";
-                    });
-                }
-
+                    listMessages.Text +=
+                        $@"{e.IpPort}: {messageReceived}{Environment.NewLine}";
+                });
             }
+
+
+            
 
         }
 

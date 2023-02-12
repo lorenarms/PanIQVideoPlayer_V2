@@ -15,6 +15,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using SuperSimpleTcp;
+using System.Globalization;
 
 
 namespace Server.Original
@@ -56,7 +57,7 @@ namespace Server.Original
                 // ask for the name of the computer that just connected
                 // send "REQUESTNAME+" header with the socket of the client computer
 
-                _server.Send(e.IpPort, "REQUESTNAME+" + e.IpPort);
+                _server.Send(e.IpPort, "REQUESTNAME+");
                 
             });
         }
@@ -85,41 +86,42 @@ namespace Server.Original
             // check "header" for keywords
             // proper format is [HEADER],[ipAddress]+[MESSAGE]
 
-            if (Encoding.UTF8.GetString(e.Data.ToArray()).Contains("NAMEREQUEST"))
+            string messageReceived = Encoding.UTF8.GetString(e.Data.ToArray());
+
+            if (messageReceived.Contains("NAMEREQUEST"))
             {
+                char[] splitter = { '+' };
+                string[] messageSplit = messageReceived.Split(splitter, StringSplitOptions.RemoveEmptyEntries);
 
-                this.Invoke((MethodInvoker)delegate
+                // NAMEREQUEST+COMPUTERNAME
+
+                foreach (var item in messageSplit)
                 {
-                    string table = Encoding.UTF8.GetString(e.Data.ToArray());
-                    char[] splitter = { '+' };
-                    string[] entries = table.Split(splitter, StringSplitOptions.RemoveEmptyEntries);
-
-                    foreach (var entry in entries)
+                    if (item.Equals("NAMEREQUEST"))
                     {
-                        if (entry.Equals("NAMEREQUEST"))
-                        {
-                            continue;
-                        }
-
-                        char[] singleEntryChars = { ',' };
-                        string[] singleEntry = entry.Split(singleEntryChars, StringSplitOptions.None);
-
-                        _table.Add(singleEntry[0], singleEntry[1]);
-
-                        listClient.Items.Add(singleEntry[1]);
-
+                        continue;
                     }
+                    var clientComputerName = item;
 
-                });
+                    // COMPUTERNAME
 
+                    _table.Add(e.IpPort, clientComputerName);
+
+                    this.Invoke((MethodInvoker)delegate
+                    {
+                        listClient.Items.Add(clientComputerName);
+                    });
+
+
+                }
             }
+
             else
             {
                 this.Invoke((MethodInvoker)delegate
                 {
                     listMessages.Text += $@"{e.IpPort}: {Encoding.UTF8.GetString(e.Data.ToArray())}{Environment.NewLine}";
                 });
-
             }
 
         }
