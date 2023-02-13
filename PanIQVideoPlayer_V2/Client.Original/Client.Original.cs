@@ -75,9 +75,13 @@ namespace Client.Original
             {
                 _client.Send("NAMEREQUEST+" + _localComputerName);
             }
-            else if (messageReceived.Contains("INTRO"))
+            else if (messageReceived.Contains("START"))
             {
                 _runner.StartIntroVideo();
+            }
+            else if (messageReceived.Contains("STOP"))
+            {
+                _runner.StopIntroVideo();
             }
             else
             {

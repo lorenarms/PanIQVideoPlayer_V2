@@ -197,7 +197,7 @@ namespace ClientMaster
                 }
 
                 // append header "COMMAND" to message
-                _client.Send("COMMAND+" + ipConnection + "," + "PLAY VIDEO COMMAND");
+                _client.Send("COMMAND+" + ipConnection + "," + "PLAY");
                 listMessages.Text += $@"Me: Playing video on {listRoom.SelectedItem}{Environment.NewLine}";
                 listMessages.SelectionStart = listMessages.Text.Length;
                 listMessages.ScrollToCaret();
@@ -229,7 +229,7 @@ namespace ClientMaster
                 }
 
                 // append header "COMMAND" to message
-                _client.Send("COMMAND+" + ipConnection + "," + "STOP VIDEO COMMAND");
+                _client.Send("COMMAND+" + ipConnection + "," + "STOP");
                 listMessages.Text += $@"Me: Stopping video on {listRoom.SelectedItem}{Environment.NewLine}";
                 listMessages.SelectionStart = listMessages.Text.Length;
                 listMessages.ScrollToCaret();

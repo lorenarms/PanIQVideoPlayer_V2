@@ -62,9 +62,14 @@ namespace Client
                 _client.Send("REQUESTNAMESLAVE+" + GetLocalComputerName());
             }
             
-            else if (messageReceived.Contains("INTRO"))
+            else if (messageReceived.Contains("PLAY"))
             {
                 _runner.StartIntroVideo();
+            }
+
+            else if (messageReceived.Contains("STOP"))
+            {
+                _runner.StopIntroVideo();
             }
 
             else

@@ -34,6 +34,29 @@ namespace Client
 
         }
 
+        public void StopIntroVideo()
+        {
+            var startInfo = new ProcessStartInfo
+            {
+                FileName = "cmd.exe",
+                RedirectStandardInput = false,  // setting this to 'false' allows for 'timeout /T' to work as arg
+                RedirectStandardOutput = true,
+                RedirectStandardError = true,
+                UseShellExecute = false,
+                CreateNoWindow = false,
+                Arguments = "/C taskkill /IM vlc.exe",
+
+                WindowStyle = System.Diagnostics.ProcessWindowStyle.Minimized,
+            };
+            var process = new Process { StartInfo = startInfo };
+
+            process.Start();
+            
+            process.CloseMainWindow();
+        }
+
+
+
         public string RunCommandWithReturn(List<string> command)
         {
             string result = string.Empty;

@@ -19,7 +19,7 @@ namespace Client
                 RedirectStandardError = true,
                 UseShellExecute = false,
                 CreateNoWindow = false,
-                Arguments = "/C start vlc.exe --fullscreen intro_video.mp4 " +
+                Arguments = "/C start vlc.exe --fullscreen --no-video-title-show --no-qt-fs-controller intro_video.mp4 " +
                             "& timeout /T 10" +
                             "& taskkill /IM vlc.exe /F",
 
@@ -32,6 +32,27 @@ namespace Client
 
             process.CloseMainWindow();
 
+        }
+
+        public void StopIntroVideo()
+        {
+            var startInfo = new ProcessStartInfo
+            {
+                FileName = "cmd.exe",
+                RedirectStandardInput = false,  // setting this to 'false' allows for 'timeout /T' to work as arg
+                RedirectStandardOutput = true,
+                RedirectStandardError = true,
+                UseShellExecute = false,
+                CreateNoWindow = false,
+                Arguments = "/C taskkill /IM vlc.exe",
+
+                WindowStyle = System.Diagnostics.ProcessWindowStyle.Minimized,
+            };
+            var process = new Process { StartInfo = startInfo };
+
+            process.Start();
+
+            process.CloseMainWindow();
         }
 
         public string RunCommandWithReturn(List<string> command)
