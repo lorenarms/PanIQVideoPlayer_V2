@@ -31,9 +31,10 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ClientMasterForm));
             this.listMessages = new System.Windows.Forms.TextBox();
             this.textServerIp = new System.Windows.Forms.TextBox();
-            this.label1 = new System.Windows.Forms.Label();
             this.listRoom = new System.Windows.Forms.ListBox();
-            this.msgLabel = new System.Windows.Forms.Label();
+            this.labelInformation = new System.Windows.Forms.Label();
+            this.roomListLabel = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
             this.btnRefresh = new Server.RoundedButton();
             this.btnConnect = new Server.RoundedButton();
             this.btnStop = new Server.RoundedButton();
@@ -42,67 +43,80 @@
             // 
             // listMessages
             // 
-            this.listMessages.Location = new System.Drawing.Point(168, 94);
-            this.listMessages.Margin = new System.Windows.Forms.Padding(4);
+            this.listMessages.ForeColor = System.Drawing.SystemColors.ScrollBar;
+            this.listMessages.Location = new System.Drawing.Point(334, 29);
+            this.listMessages.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.listMessages.Multiline = true;
             this.listMessages.Name = "listMessages";
             this.listMessages.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.listMessages.Size = new System.Drawing.Size(699, 289);
+            this.listMessages.Size = new System.Drawing.Size(132, 221);
             this.listMessages.TabIndex = 13;
             // 
             // textServerIp
             // 
-            this.textServerIp.Location = new System.Drawing.Point(168, 42);
-            this.textServerIp.Margin = new System.Windows.Forms.Padding(4);
+            this.textServerIp.Location = new System.Drawing.Point(141, 198);
+            this.textServerIp.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.textServerIp.Name = "textServerIp";
-            this.textServerIp.Size = new System.Drawing.Size(699, 31);
+            this.textServerIp.Size = new System.Drawing.Size(160, 20);
             this.textServerIp.TabIndex = 9;
             this.textServerIp.Text = "Not connected";
+            // 
+            // listRoom
+            // 
+            this.listRoom.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.listRoom.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.listRoom.FormattingEnabled = true;
+            this.listRoom.ItemHeight = 16;
+            this.listRoom.Location = new System.Drawing.Point(150, 29);
+            this.listRoom.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.listRoom.Name = "listRoom";
+            this.listRoom.Size = new System.Drawing.Size(146, 144);
+            this.listRoom.TabIndex = 14;
+            // 
+            // labelInformation
+            // 
+            this.labelInformation.AutoSize = true;
+            this.labelInformation.Font = new System.Drawing.Font("Arial", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelInformation.Location = new System.Drawing.Point(138, 220);
+            this.labelInformation.Name = "labelInformation";
+            this.labelInformation.Size = new System.Drawing.Size(163, 16);
+            this.labelInformation.TabIndex = 23;
+            this.labelInformation.Text = "Click \"connect\" to start...";
+            // 
+            // roomListLabel
+            // 
+            this.roomListLabel.AutoSize = true;
+            this.roomListLabel.Font = new System.Drawing.Font("Arial", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.roomListLabel.Location = new System.Drawing.Point(138, 11);
+            this.roomListLabel.Name = "roomListLabel";
+            this.roomListLabel.Size = new System.Drawing.Size(112, 16);
+            this.roomListLabel.TabIndex = 24;
+            this.roomListLabel.Text = "Room Selection:";
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(79, 42);
-            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label1.Location = new System.Drawing.Point(331, 9);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(81, 25);
-            this.label1.TabIndex = 7;
-            this.label1.Text = "Server:";
-            // 
-            // listRoom
-            // 
-            this.listRoom.FormattingEnabled = true;
-            this.listRoom.ItemHeight = 25;
-            this.listRoom.Location = new System.Drawing.Point(889, 123);
-            this.listRoom.Margin = new System.Windows.Forms.Padding(4);
-            this.listRoom.Name = "listRoom";
-            this.listRoom.Size = new System.Drawing.Size(232, 379);
-            this.listRoom.TabIndex = 14;
-            // 
-            // msgLabel
-            // 
-            this.msgLabel.AutoSize = true;
-            this.msgLabel.Location = new System.Drawing.Point(43, 94);
-            this.msgLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.msgLabel.Name = "msgLabel";
-            this.msgLabel.Size = new System.Drawing.Size(117, 25);
-            this.msgLabel.TabIndex = 17;
-            this.msgLabel.Text = "Messages:";
+            this.label1.Size = new System.Drawing.Size(25, 13);
+            this.label1.TabIndex = 25;
+            this.label1.Text = "Log";
             // 
             // btnRefresh
             // 
             this.btnRefresh.BackColor = System.Drawing.Color.RoyalBlue;
             this.btnRefresh.BackgroundColor = System.Drawing.Color.RoyalBlue;
             this.btnRefresh.BorderColor = System.Drawing.Color.PaleVioletRed;
-            this.btnRefresh.BorderRadius = 0;
+            this.btnRefresh.BorderRadius = 40;
             this.btnRefresh.BorderSize = 0;
             this.btnRefresh.FlatAppearance.BorderSize = 0;
             this.btnRefresh.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnRefresh.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnRefresh.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnRefresh.ForeColor = System.Drawing.Color.White;
-            this.btnRefresh.Location = new System.Drawing.Point(889, 42);
+            this.btnRefresh.Location = new System.Drawing.Point(11, 12);
+            this.btnRefresh.Margin = new System.Windows.Forms.Padding(2);
             this.btnRefresh.Name = "btnRefresh";
-            this.btnRefresh.Size = new System.Drawing.Size(232, 73);
+            this.btnRefresh.Size = new System.Drawing.Size(122, 47);
             this.btnRefresh.TabIndex = 22;
             this.btnRefresh.Text = "Refresh List";
             this.btnRefresh.TextColor = System.Drawing.Color.White;
@@ -120,9 +134,10 @@
             this.btnConnect.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnConnect.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnConnect.ForeColor = System.Drawing.Color.White;
-            this.btnConnect.Location = new System.Drawing.Point(657, 412);
+            this.btnConnect.Location = new System.Drawing.Point(11, 204);
+            this.btnConnect.Margin = new System.Windows.Forms.Padding(2);
             this.btnConnect.Name = "btnConnect";
-            this.btnConnect.Size = new System.Drawing.Size(210, 90);
+            this.btnConnect.Size = new System.Drawing.Size(122, 47);
             this.btnConnect.TabIndex = 21;
             this.btnConnect.Text = "Connect";
             this.btnConnect.TextColor = System.Drawing.Color.White;
@@ -140,9 +155,10 @@
             this.btnStop.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnStop.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnStop.ForeColor = System.Drawing.Color.White;
-            this.btnStop.Location = new System.Drawing.Point(413, 412);
+            this.btnStop.Location = new System.Drawing.Point(11, 114);
+            this.btnStop.Margin = new System.Windows.Forms.Padding(2);
             this.btnStop.Name = "btnStop";
-            this.btnStop.Size = new System.Drawing.Size(210, 90);
+            this.btnStop.Size = new System.Drawing.Size(122, 47);
             this.btnStop.TabIndex = 20;
             this.btnStop.Text = " Stop";
             this.btnStop.TextColor = System.Drawing.Color.White;
@@ -160,9 +176,10 @@
             this.btnPlay.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnPlay.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnPlay.ForeColor = System.Drawing.Color.White;
-            this.btnPlay.Location = new System.Drawing.Point(168, 412);
+            this.btnPlay.Location = new System.Drawing.Point(11, 63);
+            this.btnPlay.Margin = new System.Windows.Forms.Padding(2);
             this.btnPlay.Name = "btnPlay";
-            this.btnPlay.Size = new System.Drawing.Size(210, 90);
+            this.btnPlay.Size = new System.Drawing.Size(122, 47);
             this.btnPlay.TabIndex = 19;
             this.btnPlay.Text = "Play";
             this.btnPlay.TextColor = System.Drawing.Color.White;
@@ -171,23 +188,24 @@
             // 
             // ClientMasterForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(1144, 525);
+            this.ClientSize = new System.Drawing.Size(477, 261);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.roomListLabel);
+            this.Controls.Add(this.labelInformation);
             this.Controls.Add(this.btnRefresh);
             this.Controls.Add(this.btnConnect);
             this.Controls.Add(this.btnStop);
             this.Controls.Add(this.btnPlay);
-            this.Controls.Add(this.msgLabel);
             this.Controls.Add(this.listRoom);
             this.Controls.Add(this.listMessages);
             this.Controls.Add(this.textServerIp);
-            this.Controls.Add(this.label1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Margin = new System.Windows.Forms.Padding(4);
-            this.MaximumSize = new System.Drawing.Size(1170, 596);
-            this.MinimumSize = new System.Drawing.Size(1170, 596);
+            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.MaximumSize = new System.Drawing.Size(493, 300);
+            this.MinimumSize = new System.Drawing.Size(493, 300);
             this.Name = "ClientMasterForm";
             this.Text = "Video Player";
             this.Load += new System.EventHandler(this.ClientMasterForm_Load);
@@ -200,13 +218,14 @@
 
         private System.Windows.Forms.TextBox listMessages;
         private System.Windows.Forms.TextBox textServerIp;
-        private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ListBox listRoom;
-        private System.Windows.Forms.Label msgLabel;
         private Server.RoundedButton btnPlay;
         private Server.RoundedButton btnStop;
         private Server.RoundedButton btnConnect;
         private Server.RoundedButton btnRefresh;
+        private System.Windows.Forms.Label labelInformation;
+        private System.Windows.Forms.Label roomListLabel;
+        private System.Windows.Forms.Label label1;
     }
 }
 

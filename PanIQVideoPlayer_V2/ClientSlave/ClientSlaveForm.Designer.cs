@@ -38,25 +38,28 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(21, 24);
+            this.label1.Location = new System.Drawing.Point(10, 12);
+            this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(81, 25);
+            this.label1.Size = new System.Drawing.Size(41, 13);
             this.label1.TabIndex = 0;
             this.label1.Text = "Server:";
             // 
             // textServerIp
             // 
-            this.textServerIp.Location = new System.Drawing.Point(132, 24);
+            this.textServerIp.Location = new System.Drawing.Point(66, 12);
+            this.textServerIp.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.textServerIp.Name = "textServerIp";
-            this.textServerIp.Size = new System.Drawing.Size(453, 31);
+            this.textServerIp.Size = new System.Drawing.Size(228, 20);
             this.textServerIp.TabIndex = 2;
-            this.textServerIp.Text = "192.168.0.158:9001";
+            this.textServerIp.Text = "192.168.0.34:9001";
             // 
             // btnConnect
             // 
-            this.btnConnect.Location = new System.Drawing.Point(132, 530);
+            this.btnConnect.Location = new System.Drawing.Point(66, 276);
+            this.btnConnect.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btnConnect.Name = "btnConnect";
-            this.btnConnect.Size = new System.Drawing.Size(159, 81);
+            this.btnConnect.Size = new System.Drawing.Size(80, 42);
             this.btnConnect.TabIndex = 4;
             this.btnConnect.Text = "Connect";
             this.btnConnect.UseVisualStyleBackColor = true;
@@ -64,25 +67,27 @@
             // 
             // listMessages
             // 
-            this.listMessages.Location = new System.Drawing.Point(132, 77);
+            this.listMessages.Location = new System.Drawing.Point(66, 40);
+            this.listMessages.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.listMessages.Multiline = true;
             this.listMessages.Name = "listMessages";
             this.listMessages.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.listMessages.Size = new System.Drawing.Size(453, 434);
+            this.listMessages.Size = new System.Drawing.Size(228, 228);
             this.listMessages.TabIndex = 6;
             // 
             // ClientSlaveForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(614, 629);
+            this.ClientSize = new System.Drawing.Size(312, 344);
             this.Controls.Add(this.listMessages);
             this.Controls.Add(this.btnConnect);
             this.Controls.Add(this.textServerIp);
             this.Controls.Add(this.label1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.MaximumSize = new System.Drawing.Size(640, 700);
-            this.MinimumSize = new System.Drawing.Size(640, 700);
+            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.MaximumSize = new System.Drawing.Size(328, 383);
+            this.MinimumSize = new System.Drawing.Size(328, 383);
             this.Name = "ClientSlaveForm";
             this.Text = "Kiosk Client";
             this.Load += new System.EventHandler(this.ClientForm_Load);
