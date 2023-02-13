@@ -62,10 +62,9 @@ namespace ClientMaster
 
                 textServerIp.Text = string.Empty;
                 textServerIp.Text = "Connected!";
-
-
-
+                
             });
+            
         }
         private void Events_Disconnected(object sender, ConnectionEventArgs e)
         {
@@ -260,9 +259,9 @@ namespace ClientMaster
                 btnRefresh.Visible = true;
                 btnConnect.Visible = false;
 
+
+
                 _client.Send("REQUESTSLAVELIST+");
-
-
 
             }
             catch (Exception ex)

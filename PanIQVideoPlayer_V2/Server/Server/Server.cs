@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net.Sockets;
 using System.Net;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using SuperSimpleTcp;
 
@@ -156,7 +157,8 @@ namespace Server
                         foreach (var slave in ClientSlaveList)
                         {
                             _server.Send(e.IpPort, "SLAVE+" + slave.Key + "," + slave.Value);
-                            _server.Send(e.IpPort, slave.Value + " has connected!");
+                            Thread.Sleep(100);
+                            _server.Send(e.IpPort, slave.Value + " is connected!");
 
                             Console.WriteLine("Slave " + slave.Key + "," + slave.Value + " sent to client " + e.IpPort);
                         }

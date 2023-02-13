@@ -30,7 +30,6 @@ namespace Client
 
         private void ClientForm_Load(object sender, EventArgs e)
         {
-            btnSend.Enabled = false;
             _localComputerName = GetLocalComputerName();
             _runner = new Command_Runner();
             //ClientForm.ActiveForm.Text = _localComputerName;
@@ -49,7 +48,8 @@ namespace Client
             this.Invoke((MethodInvoker)delegate
             {
                 listMessages.Text += $@"Server disconnected.{Environment.NewLine}";
-                btnSend.Enabled = false;
+                listMessages.SelectionStart = listMessages.Text.Length;
+                listMessages.ScrollToCaret();
                 btnConnect.Enabled = true;
             });
         }
@@ -75,32 +75,31 @@ namespace Client
             else
             {
                 // message was sent, display to message list
-                if (textMessage.InvokeRequired)
+                this.Invoke((MethodInvoker)delegate
                 {
-                    this.Invoke((MethodInvoker) delegate
-                    {
-                        listMessages.Text +=
-                            $@"{e.IpPort}: {Encoding.UTF8.GetString(e.Data.ToArray())}{Environment.NewLine}";
-                    });
-                }    
+                    listMessages.Text +=
+                        $@"{e.IpPort}: {Encoding.UTF8.GetString(e.Data.ToArray())}{Environment.NewLine}";
+                });
 
             }
 
         }
 
         // buttons
-        private void btnSend_Click(object sender, EventArgs e)
-        {
-            if (_client.IsConnected)
-            {
-                if (!string.IsNullOrEmpty(textMessage.Text))
-                {
-                    _client.Send(textMessage.Text);
-                    listMessages.Text += $@"Me: {textMessage.Text}{Environment.NewLine}";
-                    textMessage.Text = string.Empty;
-                }
-            }
-        }
+        //private void btnSend_Click(object sender, EventArgs e)
+        //{
+        //    if (_client.IsConnected)
+        //    {
+        //        if (!string.IsNullOrEmpty(textMessage.Text))
+        //        {
+        //            _client.Send(textMessage.Text);
+        //            listMessages.Text += $@"Me: {textMessage.Text}{Environment.NewLine}";
+        //            listMessages.SelectionStart = listMessages.Text.Length;
+        //            listMessages.ScrollToCaret();
+        //            textMessage.Text = string.Empty;
+        //        }
+        //    }
+        //}
 
         private void btnConnect_Click(object sender, EventArgs e)
         {
@@ -111,7 +110,6 @@ namespace Client
                 _client.Events.Disconnected += Events_Disconnected;
                 _client.Events.DataReceived += Events_DataReceived;
                 _client.Connect();
-                btnSend.Enabled = true;
                 btnConnect.Enabled = false;
 
                 
