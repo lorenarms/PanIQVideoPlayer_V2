@@ -34,9 +34,14 @@ namespace ClientMaster
 
         private void ClientMasterForm_Load(object sender, EventArgs e)
         {
-            btnSend.Enabled = false;
-            btnCommand.Enabled = false;
-            textServerIp.Text = GetLocalIpAddress() + @":9001";
+            btnRefresh.Enabled = false;
+            btnPlay.Enabled = false;
+            btnStop.Enabled = false;
+
+            btnPlay.Visible = false;
+            btnStop.Visible = false;
+            btnRefresh.Visible = false;
+            //textServerIp.Text = GetLocalIpAddress() + @":9001";
             _localComputerName = GetLocalComputerName();
             ClientSlaveList = new Dictionary<string, string>();
         }
@@ -49,10 +54,17 @@ namespace ClientMaster
         {
             this.Invoke((MethodInvoker) delegate
             {
-                listMessages.Text += $@"{e.IpPort} connected.{Environment.NewLine}";
+                listMessages.Text += $@"Server connected.{Environment.NewLine}";
                 //_client.Send("REQUESTNAMEMASTER+" + e.IpPort + "," + GetLocalComputerName());
-                
-                
+                listMessages.SelectionStart = listMessages.Text.Length;
+                listMessages.ScrollToCaret();
+
+
+                textServerIp.Text = string.Empty;
+                textServerIp.Text = "Connected!";
+
+
+
             });
         }
         private void Events_Disconnected(object sender, ConnectionEventArgs e)
@@ -61,7 +73,9 @@ namespace ClientMaster
             var computerToRemove = string.Empty;
             this.Invoke((MethodInvoker) delegate
             {
-                listMessages.Text += $@"{e.IpPort} disconnected.{Environment.NewLine}";
+                listMessages.Text += $@"Server disconnected.{Environment.NewLine}";
+                listMessages.SelectionStart = listMessages.Text.Length;
+                listMessages.ScrollToCaret();
                 foreach (var item in ClientSlaveList)
                 {
                     if (item.Key.Equals(ipAddressWithPort))
@@ -69,9 +83,22 @@ namespace ClientMaster
                         computerToRemove = item.Value;
                     }
                 }
-                listClient.Items.Remove(computerToRemove);
+                listRoom.Items.Remove(computerToRemove);
                 ClientSlaveList.Remove(ipAddressWithPort);
+
+                textServerIp.Text = "Disconnected";
+                btnPlay.Enabled = false;
+                btnStop.Enabled = false;
+                btnRefresh.Enabled = false;
+                btnConnect.Enabled = true;
+
+                btnPlay.Visible = false;
+                btnStop.Visible = false;
+                btnRefresh.Visible = false;
+                btnConnect.Visible = true;
             });
+
+            
         }
 
 
@@ -103,7 +130,7 @@ namespace ClientMaster
 
                     this.Invoke((MethodInvoker) delegate
                     {
-                        listClient.Items.Add(messageEntries[1]);
+                        listRoom.Items.Add(messageEntries[1]);
 
                     });
 
@@ -116,17 +143,25 @@ namespace ClientMaster
                 ClientSlaveList.Clear();
                 this.Invoke((MethodInvoker) delegate
                 {
-                    listClient.Items.Clear();
+                    listRoom.Items.Clear();
 
                 });
-                _client.Send("REQUESTSLAVELIST+" + GetLocalIpAddress());
+                _client.Send("REQUESTSLAVELIST+");
+            }
+
+            else if (messageReceived.Equals(""))
+            {
+                // when server disconnects, it sends an empty string
+                // don't do anything when this happens
             }
 
             else
             {
                 this.Invoke((MethodInvoker) delegate
                 {
-                    listMessages.Text += $@"{e.IpPort}: {Encoding.UTF8.GetString(e.Data.ToArray())}{Environment.NewLine}";
+                    listMessages.Text += $@"Server: {Encoding.UTF8.GetString(e.Data.ToArray())}{Environment.NewLine}";
+                    listMessages.SelectionStart = listMessages.Text.Length;
+                    listMessages.ScrollToCaret();
                 });
 
             }
@@ -135,53 +170,97 @@ namespace ClientMaster
 
 
 
-
-
         // buttons
-        private void btnSend_Click(object sender, EventArgs e)
+
+
+        // ********* PLAY VIDEO *********
+        private void btnPlay_Click(object sender, EventArgs e)
         {
-            if (_client.IsConnected && listClient.SelectedItem == null)
+            if (_client.IsConnected && listRoom.SelectedItem == null)
             {
                 // send message to server
-
-                if (!string.IsNullOrEmpty(textMessage.Text))
-                {
-                    _client.Send(textMessage.Text);
-                    listMessages.Text += $@"Me: {textMessage.Text}{Environment.NewLine}";
-                    textMessage.Text = string.Empty;
-                }
+                listMessages.Text += $@"Select a room first{Environment.NewLine}";
+                listMessages.SelectionStart = listMessages.Text.Length;
+                listMessages.ScrollToCaret();
+                
             }
-            else if (_client.IsConnected && listClient.SelectedItem != null)
+            else if (_client.IsConnected && listRoom.SelectedItem != null)
             {
                 // send message to selected client
                 string ipConnection = string.Empty;
                 foreach (var item in ClientSlaveList)
                 {
-                    if (item.Value == listClient.SelectedItem.ToString())
+                    if (item.Value == listRoom.SelectedItem.ToString())
                     {
                         ipConnection = item.Key;
                     }
                 }
 
                 // append header "COMMAND" to message
-                _client.Send("COMMAND+" + ipConnection + "," + textMessage.Text);
-                listMessages.Text += $@"Me: {textMessage.Text}{Environment.NewLine}";
-                textMessage.Text = string.Empty;
+                _client.Send("COMMAND+" + ipConnection + "," + "PLAY VIDEO COMMAND");
+                listMessages.Text += $@"Me: Playing video on {listRoom.SelectedItem}{Environment.NewLine}";
+                listMessages.SelectionStart = listMessages.Text.Length;
+                listMessages.ScrollToCaret();
             }
         }
 
+
+        // ********* STOP VIDEO *********
+        private void btnStop_Click(object sender, EventArgs e)
+        {
+            if (_client.IsConnected && listRoom.SelectedItem == null)
+            {
+                // send message to server
+                listMessages.Text += $@"Select a room first{Environment.NewLine}";
+                listMessages.SelectionStart = listMessages.Text.Length;
+                listMessages.ScrollToCaret();
+
+            }
+            else if (_client.IsConnected && listRoom.SelectedItem != null)
+            {
+                // send message to selected client
+                string ipConnection = string.Empty;
+                foreach (var item in ClientSlaveList)
+                {
+                    if (item.Value == listRoom.SelectedItem.ToString())
+                    {
+                        ipConnection = item.Key;
+                    }
+                }
+
+                // append header "COMMAND" to message
+                _client.Send("COMMAND+" + ipConnection + "," + "STOP VIDEO COMMAND");
+                listMessages.Text += $@"Me: Stopping video on {listRoom.SelectedItem}{Environment.NewLine}";
+                listMessages.SelectionStart = listMessages.Text.Length;
+                listMessages.ScrollToCaret();
+            }
+        }
+
+
+
+        // ********* CONNECT TO SERVER *********
         private void btnConnect_Click(object sender, EventArgs e)
         {
             try
             {
-                _client = new SimpleTcpClient(textServerIp.Text);
+                textServerIp.Text = string.Empty;
+                textServerIp.Text = "Connecting...";
+                _client = new SimpleTcpClient(GetLocalIpAddress() + ":9001");
                 _client.Events.Connected += Events_Connected;
                 _client.Events.Disconnected += Events_Disconnected;
                 _client.Events.DataReceived += Events_DataReceived;
                 _client.Connect();
-                btnSend.Enabled = true;
                 btnConnect.Enabled = false;
-                btnCommand.Enabled = true;
+                btnRefresh.Enabled = true;
+                btnPlay.Enabled = true;
+                btnStop.Enabled = true;
+
+                btnPlay.Visible = true;
+                btnStop.Visible = true;
+                btnRefresh.Visible = true;
+                btnConnect.Visible = false;
+
+                _client.Send("REQUESTSLAVELIST+");
 
 
 
@@ -189,24 +268,26 @@ namespace ClientMaster
             catch (Exception ex)
             {
                 //MessageBox.Show(ex.Message, @"Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                listMessages.Text += $@"Could not connect... retrying now.{Environment.NewLine}";
+                listMessages.Text += $@"Could not connect... Check server status.{Environment.NewLine}";
+                listMessages.SelectionStart = listMessages.Text.Length;
+                listMessages.ScrollToCaret();
+                textServerIp.Text = "Disconnected";
             }
-            
-            
         }
 
-        private void btnCommand_Click(object sender, EventArgs e)
+        private void btnRefresh_Click(object sender, EventArgs e)
         {
             ClientSlaveList.Clear();
             this.Invoke((MethodInvoker)delegate
             {
-                listClient.Items.Clear();
+                listRoom.Items.Clear();
 
             });
 
             _client.Send("REQUESTSLAVELIST+" + GetLocalIpAddress());
-
         }
+
+        
 
 
 
@@ -231,6 +312,6 @@ namespace ClientMaster
             return Dns.GetHostName();
         }
 
-
+        
     }
 }

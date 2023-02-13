@@ -140,71 +140,25 @@ namespace Server
 
                 else if (messageReceived.Contains("REQUESTNAMEMASTER"))
                 {
-                    var masterClientComputerName = string.Empty;
-                    char[] splitter = { '+' };
-                    string[] messageSplit = messageReceived.Split(splitter, StringSplitOptions.RemoveEmptyEntries);
+                    var masterClientComputerName =
+                        MessageParser(messageReceived, "REQUESTNAMEMASTER");
+                    
+                    ClientMasterList.Add(e.IpPort, masterClientComputerName);
 
-                    foreach (var item in messageSplit)
-                    {
-                        if (item.Equals("REQUESTNAMEMASTER"))
-                        {
-                            continue;
-                        }
-                        masterClientComputerName = item;
-
-                        ClientMasterList.Add(e.IpPort, masterClientComputerName);
-                    }
-
-                    Console.WriteLine("Slave " + masterClientComputerName + " added to master list.");
+                    Console.WriteLine("Master " + masterClientComputerName + " added to master list.");
                     
                 }
                 
-                else if (messageReceived.Contains("COMMAND"))
-                {
-                    char[] splitterMessage = { '+' };
-                    string[] messageSplit = messageReceived.Split(splitterMessage, StringSplitOptions.RemoveEmptyEntries);
-
-                    foreach (var entry in messageSplit)
-                    {
-                        if (entry.Equals("COMMAND"))
-                        {
-                            continue;
-                        }
-                        // split remaining message into 'ip address' and 'message'
-                        char[] spitterEntries = { ',' };
-                        string[] singleEntry = entry.Split(spitterEntries, StringSplitOptions.None);
-
-                        Console.WriteLine("Command received! Rerouting to..." + singleEntry[0]);
-
-                        _server.Send(singleEntry[0], singleEntry[1]);
-
-                    }
-                }
-
                 else if (messageReceived.Contains("REQUESTSLAVELIST+"))
                 {
                     if (ClientSlaveList.Count != 0)
                     {
-                        // remove "REQUESTSLAVELIST" from message
-                        
-                        char[] splitterMessage = { '+' };
-                        string[] messageSplit = messageReceived.Split(splitterMessage, StringSplitOptions.RemoveEmptyEntries);
-
-                        foreach (var entry in messageSplit)
+                        foreach (var slave in ClientSlaveList)
                         {
-                            if (entry.Equals("REQUESTSLAVELIST"))
-                            {
-                                continue;
-                            }
+                            _server.Send(e.IpPort, "SLAVE+" + slave.Key + "," + slave.Value);
+                            _server.Send(e.IpPort, slave.Value + " has connected!");
 
-                            foreach (var slave in ClientSlaveList)
-                            {
-                                _server.Send(e.IpPort, "SLAVE+" + slave.Key + "," + slave.Value);
-                                _server.Send(e.IpPort, slave.Value + " has connected!");
-                                
-                                Console.WriteLine("Slave " + slave.Key + "," + slave.Value + " sent to client " + e.IpPort);
-                            }
-                            
+                            Console.WriteLine("Slave " + slave.Key + "," + slave.Value + " sent to client " + e.IpPort);
                         }
 
                     }
@@ -213,10 +167,24 @@ namespace Server
                         _server.Send(e.IpPort, "No clients connected yet!");
                     }
                 }
+                
+                else if (messageReceived.Contains("COMMAND"))
+                {
+                    var command = MessageParser(messageReceived, "COMMAND");
+                    
+                    char[] spitterEntries = { ',' };
+                    string[] singleEntry = command.Split(spitterEntries, StringSplitOptions.None);
 
+                    Console.WriteLine("Command received! Rerouting to..." + singleEntry[0]);
+
+                    _server.Send(singleEntry[0], singleEntry[1]);
+                }
+
+                // send a regular message
                 else 
                 { 
-                    Console.WriteLine($"[{e.IpPort}]: {Encoding.UTF8.GetString(e.Data.Array, 0, e.Data.Count)}");
+                    Console.WriteLine($"[{e.IpPort}]:" +
+                                      $" {Encoding.UTF8.GetString(e.Data.Array, 0, e.Data.Count)}");
 
                 }
             }
@@ -225,11 +193,11 @@ namespace Server
         }
 
 
-        static string[] MessageParser(string message, string header)
+        static string MessageParser(string message, string header)
         {
             char[] splitterMessage = {'+'};
             string[] messageSplit = message.Split(splitterMessage, StringSplitOptions.RemoveEmptyEntries);
-            string[] singleEntry = new string[] { };
+            string singleEntry = string.Empty;
 
             foreach (var entry in messageSplit)
             {
@@ -238,13 +206,9 @@ namespace Server
                     continue;
                 }
 
-                // split remaining message into 'ip address' and 'name'
-                char[] spitterEntries = {','};
-                singleEntry = entry.Split(spitterEntries, StringSplitOptions.None);
-
-                // index [0] is IP Address, index [1] is Computer Name
-                // add to dictionary
+                singleEntry = entry;
             }
+
 
             return singleEntry;
 
