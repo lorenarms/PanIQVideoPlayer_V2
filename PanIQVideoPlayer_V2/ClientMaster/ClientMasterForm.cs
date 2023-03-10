@@ -221,7 +221,7 @@ namespace ClientMaster
                 // append header "COMMAND" to message
                 _client.Send("COMMAND+" + ipConnection + "," + "PLAY");
                 labelInformation.Text = $@"Playing video on {listRoom.SelectedItem}";
-                listMessages.Text += $@"Me: Playing video on {listRoom.SelectedItem}{Environment.NewLine}";
+                listMessages.Text += $@"Playing video on {listRoom.SelectedItem}{Environment.NewLine}";
                 listMessages.SelectionStart = listMessages.Text.Length;
                 listMessages.ScrollToCaret();
             }
@@ -284,12 +284,13 @@ namespace ClientMaster
                 btnPlay.Visible = true;
                 btnStop.Visible = true;
                 btnRefresh.Visible = true;
-                btnConnect.Visible = true;
+                btnConnect.Visible = false;
                 roomListLabel.Visible = true;
 
-                btnConnect.Text= "Info:";
-                btnConnect.BackColor = Color.SteelBlue;
+                //btnConnect.Text= "Info:";
+                //btnConnect.BackColor = Color.SteelBlue;
 
+                
 
 
                 _client.Send("REQUESTSLAVELIST+");
