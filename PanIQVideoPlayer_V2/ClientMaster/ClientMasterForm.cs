@@ -255,7 +255,7 @@ namespace ClientMaster
                 // append header "COMMAND" to message
                 _client.Send("COMMAND+" + ipConnection + "," + "STOP");
                 labelInformation.Text = $@"Stopping video on {listRoom.SelectedItem}";
-                listMessages.Text += $@"Me: Stopping video on {listRoom.SelectedItem}{Environment.NewLine}";
+                listMessages.Text += $@"Stopping video on {listRoom.SelectedItem}{Environment.NewLine}";
                 listMessages.SelectionStart = listMessages.Text.Length;
                 listMessages.ScrollToCaret();
             }
