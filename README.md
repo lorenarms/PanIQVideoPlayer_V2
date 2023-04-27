@@ -21,19 +21,19 @@
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
 
-[contributors-shield]: https://img.shields.io/github/contributors/lorenarms/Personal_CSharp_Utilities.svg?style=for-the-badge
+[contributors-shield]: https://img.shields.io/github/contributors/lorenarms/PanIQVideoPlayer_V2.svg?style=for-the-badge
 [contributors-url]: https://github.com/lorenarms/PanIQVideoPlayer_V2/graphs/contributors
 
 [forks-shield]: https://img.shields.io/github/forks/lorenarms/PanIQVideoPlayer_V2.svg?style=for-the-badge
 [forks-url]: https://github.com/lorenarms/PanIQVideoPlayer_V2/forks
 
-[stars-shield]: https://img.shields.io/github/stars/lorenarms/vidly.svg?style=for-the-badge
+[stars-shield]: https://img.shields.io/github/stars/lorenarms/PanIQVideoPlayer_V2.svg?style=for-the-badge
 [stars-url]: https://github.com/lorenarms/PanIQVideoPlayer_V2/stargazers
 
-[issues-shield]: https://img.shields.io/github/issues/lorenarms/vidly.svg?style=for-the-badge
+[issues-shield]: https://img.shields.io/github/issues/lorenarms/PanIQVideoPlayer_V2.svg?style=for-the-badge
 [issues-url]: https://github.com/lorenarms/PanIQVideoPlayer_V2/issues
 
-[license-shield]: https://img.shields.io/github/license/lorenarms/vidly.svg?style=for-the-badge
+[license-shield]: https://img.shields.io/github/license/lorenarms/PanIQVideoPlayer_V2.svg?style=for-the-badge
 [license-url]: https://github.com/lorenarms/vidly/blob/master/LICENSE.txt
 
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
