@@ -18,30 +18,6 @@
 [![LinkedIn][linkedin-shield]][linkedin-url]
 
 
-<!-- MARKDOWN LINKS & IMAGES -->
-<!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-
-[contributors-shield]: https://img.shields.io/github/contributors/lorenarms/PanIQVideoPlayer_V2.svg?style=for-the-badge
-[contributors-url]: https://github.com/lorenarms/PanIQVideoPlayer_V2/graphs/contributors
-
-[forks-shield]: https://img.shields.io/github/forks/lorenarms/PanIQVideoPlayer_V2.svg?style=for-the-badge
-[forks-url]: https://github.com/lorenarms/PanIQVideoPlayer_V2/forks
-
-[stars-shield]: https://img.shields.io/github/stars/lorenarms/PanIQVideoPlayer_V2.svg?style=for-the-badge
-[stars-url]: https://github.com/lorenarms/PanIQVideoPlayer_V2/stargazers
-
-[issues-shield]: https://img.shields.io/github/issues/lorenarms/PanIQVideoPlayer_V2.svg?style=for-the-badge
-[issues-url]: https://github.com/lorenarms/PanIQVideoPlayer_V2/issues
-
-[license-shield]: https://img.shields.io/github/license/lorenarms/PanIQVideoPlayer_V2.svg?style=for-the-badge
-[license-url]: https://github.com/lorenarms/vidly/blob/master/LICENSE.txt
-
-[linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
-[linkedin-url]: https://linkedin.com/in/lorenarms95
-
-
-
-
 [product-screenshot]: https://github.com/lorenarms/Vidly/blob/master/Vidly/Screenshots/Movies%20index.png
 
 <!-- PROJECT LOGO -->
@@ -51,19 +27,19 @@
     <img src="https://process.fs.teachablecdn.com/ADNupMnWyR7kCWRvm76Laz/resize=height:120/https://file-uploads.teachablecdn.com/be9f614a58674fe1a67044fb1158fff1/79b0bba8c4c441e5bbe715364cb9e770" alt="Logo">
   </a>
 
-  <h3 align="center">The Complete ASP.NET MVC 5 Course</h3>
+  <h3 align="center">Messenger and Video Player</h3>
 
   <p align="center">
-    A web application built from scratch with C# and ASP.NET Core
+    A Windows Form application written in C#
     <br />
-    <a href="https://github.com/lorenarms/Vidly/tree/master/Vidly"><strong>Explore the files »</strong></a>
+    <a href="https://github.com/lorenarms/PanIQVideoPlayer_V2"><strong>Explore the files »</strong></a>
     <br />
     <br />
-    <a href="https://github.com/othneildrew/Best-README-Template/issues">View the demo</a>
+    <a href="#">Messenger App Demo</a>
+    ·
+    <a href="#">Video Player Demo</a>
     ·
     <a href="https://www.youtube.com/watch?v=ltE63Xm3bh4&list=PLhz6FAyiBzY6kAOeiksSwaB5887EGQIyY">See more projects</a>
-    ·
-    <a href="https://codewithmosh.com/p/asp-net-mvc">Get the course</a>
   </p>
 </div>
 
@@ -105,16 +81,24 @@
 
 [![Product Name Screen Shot][product-screenshot]](https://example.com)
 
-This project, called "Vidly", is an ASP.NET Core web application built with C# (and a wee bit'o javascript). The project is a database for a video rental service consisting of a list of Movies to rent and Customers who can rent those movies. The proeject was built folowing the tutorial by Mosh Hamedani, which can be found <a href="https://codewithmosh.com/p/asp-net-mvc">here</a>.
+For this project I was commissioned by my company, PanIQ Room, to design and build an easy-to-use application that would allow for a user to play a video on a remote computer. 
 
-Why did I choose this course?
-* I am passionate about C# coding and web development, and this course was a great way for me to get familiar with the ASP.NET and Entity frameworks
-* The course is quite old and therefore gave me a great opportunity to practice problem-solving as some of the techniques are outdated (but still work)
-* I think Mosh is awesome and a great teacher, this is not my first course with him! :smile:
+PanIQ Room is an escape room company, and the goal was to cut down on the time it takes to introduce players to the rules of the room they were about to play. An introduction video was written and filmed (also by me), to be shown before each game started. To streamline the process, management wanted the Game Masters (located in the Control room) to be able to set the video to play on command. The video would play in the room that players were to start their game in.
 
-As mentioned above, there were a few things in the course that are no longer applicable because of changes to the way MVC is built in Visual Studio 2022. That's okay! It was a great opportunity for me to work through real-world problems and solve them, and in the end there was *nothing* that I couldn't complete.
+Below is a diagram illustrating this process:
 
-Keep reading to see project screenshots and hear about my process!
+[diagram]
+
+In order to accomplish this task I first developed a rudementary messenger application to act as a proof of concept. Basically, I wanted to illustrate how two or more computers could communicate with one another easily using websockets. To learn how to do this I followed <a href="">this tutorial</a>. Below is a screenshot of the completed messaging application.
+
+### The Process
+
+Once the proof-of-concept was developed, I set out to modify the application to work similar to another application that we have here. In this application, any room's game can be controlled by any control-room computer, and games can disconnect and re-connect seemlessly. This makes the program very easy for employees to use, and that was the ultimate goal. 
+
+To accomplish this, I created a third application, the "server", that runs on one computer and facilitates all communications between the control-room application(s) (however many are running) and the game-room applications. Each control-room application runs independently of the other, meaning two Game-Masters could potentially control the same room at the same time. Likewise, one control-room application can control multiple game-room applications at once as well, and switching between them is as simple as selecting a different room from the list.
+
+Make sure you view the <a href="#">demo</a> to see exactly what I mean.
+
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -125,10 +109,7 @@ Keep reading to see project screenshots and hear about my process!
 This project was built with the following applications, languages, and libraries. Additionally, the project makes use of <a href="https://bootboxjs.com/">Bootbox.js</a> for custom dialogs, and <a href="https://datatables.net/">Datatables</a> for easy-to-use database display.
 
 [![VS][Visual Studio]][vs-url]
-[![dotnet][dotnet]][net-url]
 [![csharp][csharp]][csharp-url]
-[![Bootstrap][Bootstrap.com]][Bootstrap-url]
-[![JQuery][JQuery.com]][JQuery-url]
 
 [Visual Studio]: https://img.shields.io/badge/visual_studio_2022-ffffff?style=for-the-badge&logo=visualstudio&logoColor=purple
 [vs-url]: https://visualstudio.microsoft.com/vs/
@@ -259,7 +240,20 @@ Currently there is no license for this application, it is free to use by anyone 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
-
+<!-- MARKDOWN LINKS & IMAGES -->
+<!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
+[contributors-shield]: https://img.shields.io/github/contributors/lorenarms/PanIQVideoPlayer_V2.svg?style=for-the-badge
+[contributors-url]: https://github.com/lorenarms/PanIQVideoPlayer_V2/graphs/contributors
+[forks-shield]: https://img.shields.io/github/forks/lorenarms/PanIQVideoPlayer_V2.svg?style=for-the-badge
+[forks-url]: https://github.com/lorenarms/PanIQVideoPlayer_V2/forks
+[stars-shield]: https://img.shields.io/github/stars/lorenarms/PanIQVideoPlayer_V2.svg?style=for-the-badge
+[stars-url]: https://github.com/lorenarms/PanIQVideoPlayer_V2/stargazers
+[issues-shield]: https://img.shields.io/github/issues/lorenarms/PanIQVideoPlayer_V2.svg?style=for-the-badge
+[issues-url]: https://github.com/lorenarms/PanIQVideoPlayer_V2/issues
+[license-shield]: https://img.shields.io/github/license/lorenarms/vidly.svg?style=for-the-badge
+[license-url]: https://github.com/lorenarms/vidly/blob/master/LICENSE.txt
+[linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&color=blue
+[linkedin-url]: https://linkedin.com/in/lorenarms95
 
 
 
