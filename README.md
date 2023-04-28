@@ -35,9 +35,9 @@
     <a href="https://github.com/lorenarms/PanIQVideoPlayer_V2"><strong>Explore the files »</strong></a>
     <br />
     <br />
-    <a href="#">Messenger App Demo</a>
+    <a href="https://youtu.be/0I-UrwjZ-II">Messenger App Demo</a>
     ·
-    <a href="#">Video Player Demo</a>
+    <a href="https://youtu.be/ZRTjin782os">Video Player Demo</a>
     ·
     <a href="https://www.youtube.com/watch?v=ltE63Xm3bh4&list=PLhz6FAyiBzY6kAOeiksSwaB5887EGQIyY">See more projects</a>
   </p>
@@ -113,7 +113,7 @@ The diagram below illustrates the end result. Two different control-room compute
 
 The server, master, and client all have methods in their programming that decode a specialized header-string system so that messages do not get crossed.
 
-Make sure you view the <a href="#">demo</a> to get more information about how all this works.
+Make sure you view the <a href="https://youtu.be/ZRTjin782os">demo</a> to get more information about how all this works.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -172,15 +172,15 @@ I will provide a video in the near future showing how to do this.
 <!-- OTHER ITEMS -->
 ## More Information
 
-The application is designed to be dropped onto any computers that are on the same network and then just "work". It needed to be easy to run for users who don't really know how to use computers or troublshoot computer issues. 
+*    The application is designed to be dropped onto any computers that are on the same network and then just "work". It needed to be easy to run for users who don't really know how to use computers or troublshoot computer issues. 
 
-The server application needs to be running on one computer, but beyond that any number of kiosk applications and control-panel applications can be run on any number of computers. The server will handle all communication.
+*    The server application needs to be running on one computer, but beyond that any number of kiosk applications and control-panel applications can be run on any number of computers. The server will handle all communication.
 
-I have not tested this with large-scale networks, so don't quote me on the "any number" thing.
+*    I have not tested this with large-scale networks, so don't quote me on the "any number" thing.
 
-The secret of the server-client communication is that, depending on which button is pressed on the form, a different "header" is added to the "message" string that is routed to the desired client. Watch the information video to see this in action.
+*    The secret of the server-client communication is that, depending on which button is pressed on the form, a different "header" is added to the "message" string that is routed to the desired client. Watch the information video to see this in action.
 
-The "client list" in the control-panel application depends on the names of the client computers, so they all need to be unique so there's no confusion. Actual communication relies on ip addresses, so no messages get delivered to the wrong address.
+*    The "client list" in the control-panel application depends on the names of the client computers, so they all need to be unique so there's no confusion. Actual communication relies on ip addresses, so no messages get delivered to the wrong address.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
