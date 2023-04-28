@@ -6,6 +6,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.Common;
 using System.Diagnostics.Eventing.Reader;
 using System.Drawing;
 using System.Linq;
@@ -20,8 +21,9 @@ namespace ClientMaster
 {
     public partial class ClientMasterForm : Form
     {
+	    private const string Connection = "192.168.0.220";
 
-        private SimpleTcpClient _client;
+		private SimpleTcpClient _client;
         private Dictionary<string, string> ClientSlaveList;
         
         private static string _localComputerName;
@@ -271,7 +273,7 @@ namespace ClientMaster
                 textServerIp.Text = string.Empty;
                 labelInformation.Text = "Connecting...";
                 //textServerIp.Text = "Connecting...";
-                _client = new SimpleTcpClient("192.168.0.34" + ":9001");
+                _client = new SimpleTcpClient(Connection + ":9001");
                 _client.Events.Connected += Events_Connected;
                 _client.Events.Disconnected += Events_Disconnected;
                 _client.Events.DataReceived += Events_DataReceived;
