@@ -81,7 +81,7 @@ PanIQ Room is an escape room company, and the goal was to cut down on the time i
 
 Below is a diagram illustrating this process:
 
-<img src="https://github.com/lorenarms/PanIQVideoPlayer_V2/blob/master/PanIQVideoPlayer_V2/Images/Diagram.jpg" style="height:400px;max-width:400px;width: expression(this.width > 400 ? 400: true);">
+<img src="https://github.com/lorenarms/PanIQVideoPlayer_V2/blob/master/PanIQVideoPlayer_V2/Images/Diagram.jpg" style="width:500px">
 
 In order to accomplish this task I first developed a rudementary messenger application to act as a proof of concept. Basically, I wanted to illustrate how two or more computers could communicate with one another easily using websockets. To learn how to do this I followed <a href="https://www.youtube.com/watch?v=QrdfegS3iDg">this tutorial</a>. Below is a screenshot of the completed messaging application, talking to itself on my computer.
 
@@ -103,7 +103,7 @@ Once the proof-of-concept was developed, I set out to modify the application to 
 To accomplish this, I created a third application, the "server", that runs on one computer and facilitates all communications between the control-room application(s) (however many are running) and the game-room applications. Each control-room application runs independently of the other, meaning two Game-Masters could potentially control the same room at the same time. Likewise, one control-room application can control multiple game-room applications at once as well, and switching between them is as simple as selecting a different room from the list.
 
 
-<img src="https://github.com/lorenarms/PanIQVideoPlayer_V2/blob/master/PanIQVideoPlayer_V2/Images/Diagram%202_2.jpg" style="height:400px;max-width:400px;width: expression(this.width > 400 ? 400: true);">
+<img src="https://github.com/lorenarms/PanIQVideoPlayer_V2/blob/master/PanIQVideoPlayer_V2/Images/Diagram%202_2.jpg" style="width:500px">
 
 
 Make sure you view the <a href="#">demo</a> to see exactly what I mean.
@@ -133,13 +133,13 @@ This project was built with the following applications, languages, and libraries
     <td>Server</td>
   </tr>
   <tr>
-    <td><img src="https://github.com/lorenarms/PanIQVideoPlayer_V2/blob/master/PanIQVideoPlayer_V2/Images/server.png" style="max-width:350px;width: expression(this.width > 350 ? 350: true);">
+    <td><img src="https://github.com/lorenarms/PanIQVideoPlayer_V2/blob/master/PanIQVideoPlayer_V2/Images/server.png" style="width:500px">
   </tr>
   <tr>
     <td>Control Room Application</td>
   </tr>
   <tr>
-    <td><img src="https://github.com/lorenarms/PanIQVideoPlayer_V2/blob/master/PanIQVideoPlayer_V2/Images/master.png" style="max-width:300px;width: expression(this.width > 300 ? 300: true);">
+    <td><img src="https://github.com/lorenarms/PanIQVideoPlayer_V2/blob/master/PanIQVideoPlayer_V2/Images/master.png" style="width:500px">
   </tr>
   
 </table>
@@ -147,7 +147,7 @@ This project was built with the following applications, languages, and libraries
 <!-- GETTING STARTED -->
 ## Getting Started
 
-To copy this project I first recommend getting the course and following along, it was a great experience and you will learn a lot. If you wish to fork this project from me, please feel free to do so and continue to build onto it.
+Fork the project, or copy the repo and get going!
 
 ### Prerequisites
 
@@ -155,7 +155,7 @@ You'll want to start with <a href="https://visualstudio.microsoft.com/">Visual S
 
 ### Installation
 
-_Installing the various extensions can be done via the VS Package Manager Console, or by right-clicking the project and selecting "Add > Client-Side Library"_
+_You'll need 'SuperSimpleTCP' for C#. You can find it in the NuGet package manager_
 
 I will provide a video in the near future showing how to do this.
 
@@ -171,6 +171,10 @@ The server application needs to be running on one computer, but beyond that any 
 
 I have not tested this with large-scale networks, so don't quote me on the "any number" thing.
 
+The secret of the server-client communication is that, depending on which button is pressed on the form, a different "header" is added to the "message" string that is routed to the desired client. Watch the information video to see this in action.
+
+The "client list" in the control-panel application depends on the names of the client computers, so they all need to be unique so there's no confusion. Actual communication relies on ip addresses, so no messages get delivered to the wrong address.
+
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
@@ -178,15 +182,15 @@ I have not tested this with large-scale networks, so don't quote me on the "any 
 
 Running the "server" application will display the ip address that all other apps need to connect to. The default socket is 9001.
 
-<img src="https://github.com/lorenarms/PanIQVideoPlayer_V2/blob/master/PanIQVideoPlayer_V2/Images/server%20ip.png" style="max-width:300px;width: expression(this.width > 300 ? 300: true);">
+<img src="https://github.com/lorenarms/PanIQVideoPlayer_V2/blob/master/PanIQVideoPlayer_V2/Images/server%20ip.png" style="width:500px">
 
 The Kiosk application allows the user to change which ip address to connect to, so be sure to change this to the address displayed on the server.
 
-<img src="https://github.com/lorenarms/PanIQVideoPlayer_V2/blob/master/PanIQVideoPlayer_V2/Images/client%20ip.png" style="max-width:200px;width: expression(this.width > 300 ? 300: true);">
+<img src="https://github.com/lorenarms/PanIQVideoPlayer_V2/blob/master/PanIQVideoPlayer_V2/Images/client%20ip.png" style="width:500px">
 
 The control-panel application's ip address is populated automatically (so that users cannot inadvertantly change it on accident). Devs should change the "Connection" string value in the "ClientMasterForm" code to match the ip address displayed by the server.
 
-<img src="https://github.com/lorenarms/PanIQVideoPlayer_V2/blob/master/PanIQVideoPlayer_V2/Images/master%20ip.png" style="max-width:300px;width: expression(this.width > 300 ? 300: true);">
+<img src="https://github.com/lorenarms/PanIQVideoPlayer_V2/blob/master/PanIQVideoPlayer_V2/Images/master%20ip.png" style="width:500px">
 
 
 <!-- ROADMAP -->
