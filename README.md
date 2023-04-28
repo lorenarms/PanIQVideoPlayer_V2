@@ -18,13 +18,13 @@
 [![LinkedIn][linkedin-shield]][linkedin-url]
 
 
-[product-screenshot]: https://github.com/lorenarms/Vidly/blob/master/Vidly/Screenshots/Movies%20index.png
+[product-screenshot]: https://github.com/lorenarms/PanIQVideoPlayer_V2/blob/master/PanIQVideoPlayer_V2/Images/main%20pages%20(Medium).png
 
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-  <a href="https://codewithmosh.com/">
-    <img src="https://process.fs.teachablecdn.com/ADNupMnWyR7kCWRvm76Laz/resize=height:120/https://file-uploads.teachablecdn.com/be9f614a58674fe1a67044fb1158fff1/79b0bba8c4c441e5bbe715364cb9e770" alt="Logo">
+  <a href="https://paniqescaperoom.com">
+    <img src="https://github.com/lorenarms/PanIQVideoPlayer_V2/blob/master/PanIQVideoPlayer_V2/Images/home-logo%20(Custom).png" alt="Logo">
   </a>
 
   <h3 align="center">Messenger and Video Player</h3>
@@ -58,14 +58,8 @@
     <li>
       <a href="#screenshots">Screenshots</a>
     </li>
-    <li>
-      <a href="#getting-started">Getting Started</a>
-      <ul>
-        <li><a href="#prerequisites">Prerequisites</a></li>
-        <li><a href="#installation">Installation</a></li>
-      </ul>
-    </li>
-    <li><a href="#extras">Extras</a></li>
+    <li><a href="#more-information">More Information</a></li>
+    <li><a href="#setup">Setup</a></li>
     <li><a href="#roadmap">Roadmap</a></li>
     <li><a href="#contributing">Contributing</a></li>
     <li><a href="#license">License</a></li>
@@ -79,17 +73,28 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-[![Product Name Screen Shot][product-screenshot]](https://example.com)
-
 For this project I was commissioned by my company, PanIQ Room, to design and build an easy-to-use application that would allow for a user to play a video on a remote computer. 
+
+[![Product Name Screen Shot][product-screenshot]](https://example.com)
 
 PanIQ Room is an escape room company, and the goal was to cut down on the time it takes to introduce players to the rules of the room they were about to play. An introduction video was written and filmed (also by me), to be shown before each game started. To streamline the process, management wanted the Game Masters (located in the Control room) to be able to set the video to play on command. The video would play in the room that players were to start their game in.
 
 Below is a diagram illustrating this process:
 
-[diagram]
+<img src="https://github.com/lorenarms/PanIQVideoPlayer_V2/blob/master/PanIQVideoPlayer_V2/Images/Diagram.jpg" style="height:400px;max-width:400px;width: expression(this.width > 400 ? 400: true);">
 
-In order to accomplish this task I first developed a rudementary messenger application to act as a proof of concept. Basically, I wanted to illustrate how two or more computers could communicate with one another easily using websockets. To learn how to do this I followed <a href="">this tutorial</a>. Below is a screenshot of the completed messaging application.
+In order to accomplish this task I first developed a rudementary messenger application to act as a proof of concept. Basically, I wanted to illustrate how two or more computers could communicate with one another easily using websockets. To learn how to do this I followed <a href="https://www.youtube.com/watch?v=QrdfegS3iDg">this tutorial</a>. Below is a screenshot of the completed messaging application, talking to itself on my computer.
+
+<table>
+  <tr>
+    <td>Server Messenger
+    <td>Client Messenger
+  </tr>
+  <tr>
+    <td><img src="https://github.com/lorenarms/PanIQVideoPlayer_V2/blob/master/PanIQVideoPlayer_V2/Images/server%20original.png" alt="Server" style="max-width:400px;width: expression(this.width > 400 ? 400: true);">
+    <td><img src="https://github.com/lorenarms/PanIQVideoPlayer_V2/blob/master/PanIQVideoPlayer_V2/Images/client%20original.png" alt="Client" style="max-width:400px;width: expression(this.width > 400 ? 400: true);">
+  </tr>
+</table>
 
 ### The Process
 
@@ -97,12 +102,13 @@ Once the proof-of-concept was developed, I set out to modify the application to 
 
 To accomplish this, I created a third application, the "server", that runs on one computer and facilitates all communications between the control-room application(s) (however many are running) and the game-room applications. Each control-room application runs independently of the other, meaning two Game-Masters could potentially control the same room at the same time. Likewise, one control-room application can control multiple game-room applications at once as well, and switching between them is as simple as selecting a different room from the list.
 
+
+<img src="https://github.com/lorenarms/PanIQVideoPlayer_V2/blob/master/PanIQVideoPlayer_V2/Images/Diagram%202_2.jpg" style="height:400px;max-width:400px;width: expression(this.width > 400 ? 400: true);">
+
+
 Make sure you view the <a href="#">demo</a> to see exactly what I mean.
 
-
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
 
 ### Built With
 
@@ -123,26 +129,20 @@ This project was built with the following applications, languages, and libraries
 ## Screenshots
 
 <table>
-  <tr>
-    <td><img src="https://github.com/lorenarms/Vidly/blob/master/Vidly/Screenshots/Movies%20index.png" alt="MovieIndex" width="auto">
-    <td><img src="https://github.com/lorenarms/Vidly/blob/master/Vidly/Screenshots/Movies%20edit%20page.png" alt="MovieEdit" width="auto">
+<tr>
+    <td>Server</td>
   </tr>
   <tr>
-    <td>Movie Index</td>
-    <td>Movie Edit Webform</td>
+    <td><img src="https://github.com/lorenarms/PanIQVideoPlayer_V2/blob/master/PanIQVideoPlayer_V2/Images/server.png" style="max-width:350px;width: expression(this.width > 350 ? 350: true);">
   </tr>
   <tr>
-    <td><img src="https://github.com/lorenarms/Vidly/blob/master/Vidly/Screenshots/Movie%20api%20getallmovies.png" alt="MovieAPI" width="auto">
-    <td><img src="https://github.com/lorenarms/Vidly/blob/master/Vidly/Screenshots/Movie%20api%20getonemovie.png" alt="MovieAPI" width="auto">
+    <td>Control Room Application</td>
   </tr>
   <tr>
-    <td>Movie API "GetAllMovies"</td>
-    <td>Movie API "GetMovieById"</td>
+    <td><img src="https://github.com/lorenarms/PanIQVideoPlayer_V2/blob/master/PanIQVideoPlayer_V2/Images/master.png" style="max-width:300px;width: expression(this.width > 300 ? 300: true);">
   </tr>
+  
 </table>
-
-_Make sure you <a href="#">view the demo</a> to see more pages in action!_
-_Also, here's some <a href="https://github.com/lorenarms/Vidly/tree/master/Vidly/Screenshots">more screenshots</a> if you're interested_
 
 <!-- GETTING STARTED -->
 ## Getting Started
@@ -163,30 +163,40 @@ I will provide a video in the near future showing how to do this.
 
 
 <!-- OTHER ITEMS -->
-## Extras
+## More Information
 
-In addition to the course material, I wished to learn more about the ASP Identity Library and how Users and Roles are managed. In this project, I added a page to add new roles for users to take on when they register. As you can see by the below screenshot, when a new user registers they have a dropdown option to select which 'role' they wish to be placed into ('user' or 'admin').
+The application is designed to be dropped onto any computers that are on the same network and then just "work". It needed to be easy to run for users who don't really know how to use computers or troublshoot computer issues. 
 
- <img src="https://github.com/lorenarms/Vidly/blob/master/Vidly/Screenshots/New%20user%20registration.png" alt="Registration">
- 
- There is a page dedicated to creating new roles that only a user logged in as 'admin' can access.
- 
- <img src="https://github.com/lorenarms/Vidly/blob/master/Vidly/Screenshots/Roles%20page.png" alt="Registration">
+The server application needs to be running on one computer, but beyond that any number of kiosk applications and control-panel applications can be run on any number of computers. The server will handle all communication.
 
-_For more examples, please refer to the [Documentation](https://github.com/lorenarms/Vidly/tree/master/Vidly/Screenshotsm)_
+I have not tested this with large-scale networks, so don't quote me on the "any number" thing.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
+
+## Setup
+
+Running the "server" application will display the ip address that all other apps need to connect to. The default socket is 9001.
+
+<img src="https://github.com/lorenarms/PanIQVideoPlayer_V2/blob/master/PanIQVideoPlayer_V2/Images/server%20ip.png" style="max-width:300px;width: expression(this.width > 300 ? 300: true);">
+
+The Kiosk application allows the user to change which ip address to connect to, so be sure to change this to the address displayed on the server.
+
+<img src="https://github.com/lorenarms/PanIQVideoPlayer_V2/blob/master/PanIQVideoPlayer_V2/Images/client%20ip.png" style="max-width:200px;width: expression(this.width > 300 ? 300: true);">
+
+The control-panel application's ip address is populated automatically (so that users cannot inadvertantly change it on accident). Devs should change the "Connection" string value in the "ClientMasterForm" code to match the ip address displayed by the server.
+
+<img src="https://github.com/lorenarms/PanIQVideoPlayer_V2/blob/master/PanIQVideoPlayer_V2/Images/master%20ip.png" style="max-width:300px;width: expression(this.width > 300 ? 300: true);">
 
 
 <!-- ROADMAP -->
 ## Roadmap
 
-- [x] Add Roles
-- [ ] Add more styling
-- [ ] Add option for admin to edit users
+- [ ] Change UI of Kiosk app
+- [ ] Test for scale
+- [ ] Add 'admin-mode' to control-panel app
 
-See the [open issues](https://github.com/lorenarms/Vidly/issues) for a full list of proposed features (and known issues).
+See the [open issues](https://github.com/lorenarms/PanIQVideoPlayer_V2/issues) for a full list of proposed features (and known issues).
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
