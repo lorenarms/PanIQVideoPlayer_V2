@@ -77,13 +77,13 @@ For this project I was commissioned by my company, PanIQ Room, to design and bui
 
 [![Product Name Screen Shot][product-screenshot]](https://example.com)
 
-PanIQ Room is an escape room company, and the goal was to cut down on the time it takes to introduce players to the rules of the room they were about to play. An introduction video was written and filmed (also by me), to be shown before each game started. To streamline the process, management wanted the Game Masters (located in the Control room) to be able to set the video to play on command. The video would play in the room that players were to start their game in.
+PanIQ Room is an escape room company, and the goal was to cut down on the time it takes to introduce players to the rules of the room they were about to play. An introduction video was written and filmed (also by me), to be shown before each game started. To streamline the process, management wanted the Game Masters (located in the Control room) to be able to set the video to play on command. The video would play in the room (Kiosk) that players were to start their game in.
 
 Below is a diagram illustrating this process:
 
 <img src="https://github.com/lorenarms/PanIQVideoPlayer_V2/blob/master/PanIQVideoPlayer_V2/Images/Diagram.jpg" style="width:500px">
 
-In order to accomplish this task I first developed a rudementary messenger application to act as a proof of concept. Basically, I wanted to illustrate how two or more computers could communicate with one another easily using websockets. To learn how to do this I followed <a href="https://www.youtube.com/watch?v=QrdfegS3iDg">this tutorial</a>. Below is a screenshot of the completed messaging application, talking to itself on my computer.
+In order to accomplish this task I first developed a messenger application to familiarize myself with the TCP protocol. The app allows one computer to act as a server while another hosts a client application that can send and receive messages to and from the server. To learn how to do this I followed <a href="https://www.youtube.com/watch?v=QrdfegS3iDg">this tutorial</a>. Below is a screenshot of the completed messaging application, talking to itself on my computer.
 
 <table>
   <tr>
@@ -98,15 +98,22 @@ In order to accomplish this task I first developed a rudementary messenger appli
 
 ### The Process
 
-Once the proof-of-concept was developed, I set out to modify the application to work similar to another application that we have here. In this application, any room's game can be controlled by any control-room computer, and games can disconnect and re-connect seemlessly. This makes the program very easy for employees to use, and that was the ultimate goal. 
+Once I better understood how the process worked, I set out to modify the application to fit our business needs. The application needed to:
 
-To accomplish this, I created a third application, the "server", that runs on one computer and facilitates all communications between the control-room application(s) (however many are running) and the game-room applications. Each control-room application runs independently of the other, meaning two Game-Masters could potentially control the same room at the same time. Likewise, one control-room application can control multiple game-room applications at once as well, and switching between them is as simple as selecting a different room from the list.
+- [ ] Be extremely user friendly
+- [ ] Allow multiple 'servers' to control any number of 'kiosks'
+- [ ] Work quickly and seemlessly so as not to interrupt player experience
 
+
+In order to complete this task, I developed an application that contains three parts: a 'server', a 'master', and a 'client'. The 'master' is actually just another 'client' application that is skinned to look and behave differently from other clients. The 'server' facilitates communication between all parts of the system, routing messages from the source to their requested destination. This setup allows for multiple 'master' applications to control multiple 'client' applications at once. Since we have multiple control-room computers, this was an essential part of development.
+
+The diagram below illustrates the end result. Two different control-room computers can both simultaneously control three (or more) different kiosk computers that are on the same network. The server between them all manages the traffic.
 
 <img src="https://github.com/lorenarms/PanIQVideoPlayer_V2/blob/master/PanIQVideoPlayer_V2/Images/Diagram%202_2.jpg" style="width:500px">
 
+The server, master, and client all have methods in their programming that decode a specialized header-string system so that messages do not get crossed.
 
-Make sure you view the <a href="#">demo</a> to see exactly what I mean.
+Make sure you view the <a href="#">demo</a> to get more information about how all this works.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
