@@ -21,7 +21,7 @@ namespace ClientMaster
 {
     public partial class ClientMasterForm : Form
     {
-	    private const string Connection = "192.168.0.220";
+	    private const string Connection = "192.168.1.103";
 
 		private SimpleTcpClient _client;
         private Dictionary<string, string> ClientSlaveList;
