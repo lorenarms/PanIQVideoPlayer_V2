@@ -35,9 +35,9 @@
     <a href="https://github.com/lorenarms/PanIQVideoPlayer_V2"><strong>Explore the files »</strong></a>
     <br />
     <br />
-    <a href="https://youtu.be/0I-UrwjZ-II">Messenger App Demo</a>
+    <a href="https://youtu.be/UMUskVbR8X4">Messenger App Demo</a>
     ·
-    <a href="https://youtu.be/ZRTjin782os">Video Player Demo</a>
+    <a href="https://youtu.be/Q7Q1f1BY-rs">Video Player Demo</a>
     ·
     <a href="https://www.youtube.com/watch?v=ltE63Xm3bh4&list=PLhz6FAyiBzY6kAOeiksSwaB5887EGQIyY">See more projects</a>
   </p>
@@ -75,7 +75,7 @@
 
 For this project I was commissioned by my company, PanIQ Room, to design and build an easy-to-use application that would allow for a user to play a video on a remote computer. 
 
-[![Product Name Screen Shot][product-screenshot]](https://example.com)
+[![Product Name Screen Shot][product-screenshot]](http:artllj.com/about)
 
 PanIQ Room is an escape room company, and the goal was to cut down on the time it takes to introduce players to the rules of the room they were about to play. An introduction video was written and filmed (also by me), to be shown before each game started. To streamline the process, management wanted the Game Masters (located in the Control room) to be able to set the video to play on command. The video would play in the room (Kiosk) that players were to start their game in.
 
@@ -96,6 +96,9 @@ In order to accomplish this task I first developed a messenger application to fa
   </tr>
 </table>
 
+Here is the Messenger Application in action, running both parts on my computer:
+<img src="https://github.com/lorenarms/PanIQVideoPlayer_V2/blob/master/PanIQVideoPlayer_V2/Images/MessengerAppDemo.gif" style="width:1000px">
+
 ### The Process
 
 Once I better understood how the process worked, I set out to modify the application to fit our business needs. The application needed to:
@@ -112,6 +115,8 @@ The diagram below illustrates the end result. Two different control-room compute
 <img src="https://github.com/lorenarms/PanIQVideoPlayer_V2/blob/master/PanIQVideoPlayer_V2/Images/Diagram%202_2.jpg" style="width:500px">
 
 The server, master, and client all have methods in their programming that decode a specialized header-string system so that messages do not get crossed.
+
+<img src="https://github.com/lorenarms/PanIQVideoPlayer_V2/blob/master/PanIQVideoPlayer_V2/Images/PanIQVideoDemo.gif" style="width:1000px">
 
 Make sure you view the <a href="https://youtu.be/ZRTjin782os">demo</a> to get more information about how all this works.
 
@@ -187,7 +192,7 @@ I will provide a video in the near future showing how to do this.
 
 ## Setup
 
-Running the "server" application will display the ip address that all other apps need to connect to. The default socket is 9001.
+Running the "server" application will display the ip address that all other apps need to connect to. The default port is 9001.
 
 <img src="https://github.com/lorenarms/PanIQVideoPlayer_V2/blob/master/PanIQVideoPlayer_V2/Images/server%20ip.png" style="width:500px">
 
@@ -199,6 +204,14 @@ The control-panel application's ip address is populated automatically (so that u
 
 <img src="https://github.com/lorenarms/PanIQVideoPlayer_V2/blob/master/PanIQVideoPlayer_V2/Images/master%20ip.png" style="width:500px">
 
+The CommandRunner class in the Client.Slave application contains all the commands to run the video on the client computer. The method StartIntroVideo is called when the "PLAY" header is received; modify these commands to 
+- [X] start other programs
+- [X] play other videos
+- [X] do something else
+
+<img src="https://github.com/lorenarms/PanIQVideoPlayer_V2/blob/master/PanIQVideoPlayer_V2/Images/commandrunnerclass.png" style="width:500px">
+
+Additionally, you may add other methods to this class to do different things. Be sure to add 'headers' to discern between these different commands.
 
 <!-- ROADMAP -->
 ## Roadmap
