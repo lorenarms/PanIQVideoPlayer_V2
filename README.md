@@ -77,7 +77,11 @@ For this project I was commissioned by my company, PanIQ Room, to design and bui
 
 [![Product Name Screen Shot][product-screenshot]](http:artllj.com/about)
 
-PanIQ Room is an escape room company, and the goal was to cut down on the time it takes to introduce players to the rules of the room they were about to play. An introduction video was written and filmed (also by me), to be shown before each game started. To streamline the process, management wanted the Game Masters (located in the Control room) to be able to set the video to play on command. The video would play in the room (Kiosk) that players were to start their game in.
+PanIQ Room is an escape room company, and the goal was to cut down on the time it takes to introduce players to the rules of the room they were about to play. An introduction video was written and filmed (also by me), to be shown before each game started. To streamline the process of showing the video, management wanted the Game Masters (located in the Control room) to be able to remotely set the video to play. 
+
+### The Goal
+
+When a host leaves the team of players in the room, the game master in the control room will be able to run this application to set the introductory video to play on the video screen of the in-room kiosk. When the video is finished, the screen will automatically switch to the in-room application that allows players to communicate with the game master. 
 
 Below is a diagram illustrating this process:
 
